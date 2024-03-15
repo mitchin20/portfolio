@@ -13,8 +13,18 @@ const config: Config = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
+      fontFamily: {
+        pr: ["Great Revolution", 'cursive'],
+        gv: ["Great Vibes", 'cursive'], 
+      },
     },
   },
-  plugins: [],
+  plugins: [
+    require("@tailwindcss/typography"), 
+    require("daisyui")
+  ],
+  daisyui: {
+    themes: ["wireframe"],
+  }
 };
 export default config;
