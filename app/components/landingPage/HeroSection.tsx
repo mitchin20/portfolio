@@ -8,10 +8,10 @@ const HeroSection = () => {
   return (
     <div className='my-10'>
         <p className='text-center text-2xl font-bold mt-12 mb-8'>
-            Hello, I'm Giang.
+            Hello, I&apos;m Giang.
         </p>
         <p className='text-center text-xl mb-2 leading-10'>
-            I'm a 
+            I&apos;m a 
             <span className='font-semibold'> full-stack developer </span> 
             with 
             <span className='font-semibold'> 4 years </span> 
@@ -38,7 +38,7 @@ const HeroSection = () => {
                 className='btn btn-wide btn-sm btn-outline btn-success font-light rounded-full'
             >
                 <GiRobotGolem />
-                Let's build something together
+                Let&apos;s build something together
             </Link>
         </div>
 
