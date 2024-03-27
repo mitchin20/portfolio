@@ -9,10 +9,13 @@ const AboutSection = () => {
                 About Me
             </h1>
             <p>
-                Testing Github Action & Vercel Deployment
+                Throughout my career, I&apos;ve had the opportunity to contributing to projects at Comcast, a leader in the telecommunications industry. This experience has allowed me to impact thousands of users with my work. I&apos;m passionate about building accessible web applications that enhance user experience and solve real-world problems.
             </p>
             <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi elementum leo sed ante mollis, a fringilla est ornare. Quisque in justo congue, posuere dolor sit amet, fringilla massa. Aliquam lectus tortor, pharetra id laoreet cursus, ultricies varius arcu. Etiam elementum et felis eget luctus. Donec id lorem non urna finibus efficitur. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Etiam vehicula ipsum lorem, nec iaculis turpis aliquet ac. Aenean vitae ligula ac odio malesuada egestas ut id sem. Sed vitae bibendum arcu, nec dignissim ex. Phasellus viverra gravida nunc at accumsan. Pellentesque a justo lacinia, euismod nunc a, imperdiet sapien.
+                My expertise includes HTML, CSS, JavaScript,React, Node.js, and Next.js. As I continue to expand my portfolio, I&apos;m eager to apply these technologies in innovative ways to solve real-world problems. I&apos;m particularly excited about the potential of web applications to improve user experiences and contribute positively to our communities. My commitment to learning and professional growth drives me to explore new challenges and build meaningful projects in the web development space.
+            </p>
+            <p>
+                I believe in writing clean, maintainable code and in the power of teamwork to bring innovative ideas to life. I strive to bring creativity, efficiency, and reliability to every project I work on.
             </p>
         </div>
     )
