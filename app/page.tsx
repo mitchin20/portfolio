@@ -1,4 +1,3 @@
-import React from "react";
 import HeroSection from "./components/landingPage/HeroSection";
 import AboutSection from "./components/landingPage/AboutSection";
 

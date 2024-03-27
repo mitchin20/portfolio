@@ -9,10 +9,7 @@ const AboutSection = () => {
                 About Me
             </h1>
             <p>
-                Testing Github Action & Vercel Deployment
-            </p>
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi elementum leo sed ante mollis, a fringilla est ornare. Quisque in justo congue, posuere dolor sit amet, fringilla massa. Aliquam lectus tortor, pharetra id laoreet cursus, ultricies varius arcu. Etiam elementum et felis eget luctus. Donec id lorem non urna finibus efficitur. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Etiam vehicula ipsum lorem, nec iaculis turpis aliquet ac. Aenean vitae ligula ac odio malesuada egestas ut id sem. Sed vitae bibendum arcu, nec dignissim ex. Phasellus viverra gravida nunc at accumsan. Pellentesque a justo lacinia, euismod nunc a, imperdiet sapien.
+                Throughout my career, I&apos;ve had the opportunity to contributing to projects at Comcast, a leader in the telecommunications industry. This experience has allowed me to impact thousands of users with my work. I&apos;m passionate about building accessible web applications that enhance user experience and solve real-world problems.
             </p>
         </div>
     )
