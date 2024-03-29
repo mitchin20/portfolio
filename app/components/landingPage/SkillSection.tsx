@@ -1,97 +1,161 @@
-import React from 'react';
-import { HtmlIcon, CodeIcon, OtherIcon } from '../svgs';
+"use client";
+import React, { useEffect, useState } from 'react';
+import { ReactIcon, NextIcon, HtmlIcon, CssIcon, JavaScriptIcon, NodeJsIcon, ApiIcon, DynamoDbIcon, MongoDbIcon, RestApiIcon, LambdaIcon, GitHubIcon, VercelIcon, DockerIcon, AgileIcon } from '../svgs';
+import Small from './components/Small';
 
 const SkillSection = () => {
-  return (
-    <div className='text-lg'>
-        <div className='divider my-10'>
-            <h1
-                className='font-semibold'
-            >
-                Tech Stack
-            </h1>
+    const [isSmall, setIsSmall] = useState<Boolean>(false);
+
+    useEffect(() => {
+        const checkSize = () => {
+            if(window.innerWidth < 769) {
+                setIsSmall(true);
+            } else {
+                setIsSmall(false);
+            }
+        }
+
+        checkSize();
+
+        window.addEventListener('resize', checkSize);
+
+        return () => window.removeEventListener('resize', checkSize);
+    }, [])
+
+    console.log("screen width: ", isSmall)
+    return (
+        <div className='max-h-full py-3 px-4 md:px-24 lg:px-[300px] xl:px-[400px] 2xl:px-[600px]'>
+            <div className='divider my-20'>
+                <h1
+                    className='font-semibold text-lg'
+                >
+                    Tech Stack
+                </h1>
+            </div>
+            {isSmall && (
+                <Small />
+            )}
+            {!isSmall && (
+                <div>
+                    {/* stats 1 */}
+                    <div className="stats shadow flex content-center items-center mb-5">
+                        <div className="stat">
+                            <div className="stat-figure text-secondary">
+                                <ReactIcon className="text-4xl" />
+                            </div>
+                            <div className="stat-value text-sm text-sky-400 hover:text-3xl transition-all duration-300 ease-in-out">React</div>
+                        </div>
+                        
+                        <div className="stat">
+                            <div className="stat-figure text-secondary">
+                                <NextIcon className="text-4xl" />
+                            </div>
+                            <div className="stat-value text-sm hover:text-3xl transition-all duration-300 ease-in-out">NextJS</div>
+                        </div>
+                        
+                        <div className="stat">
+                            <div className="stat-figure text-secondary">
+                                <HtmlIcon className="text-4xl" />
+                            </div>
+                            <div className="stat-value text-sm text-orange-600 hover:text-3xl transition-all duration-300 ease-in-out">HTML</div>
+                        </div>
+                    </div>
+                    {/* stats 2 */}
+                    <div className="stats shadow flex content-center items-center mb-5">
+                        <div className="stat">
+                            <div className="stat-figure text-secondary">
+                                <CssIcon className="text-4xl" />
+                            </div>
+                            <div className="stat-value text-sm text-[#1171b6] hover:text-3xl transition-all duration-300 ease-in-out">CSS</div>
+                        </div>
+                        
+                        <div className="stat">
+                            <div className="stat-figure text-secondary">
+                                <JavaScriptIcon className="text-4xl" />
+                            </div>
+                            <div className="stat-value text-sm text-[#F7DF1E] hover:text-3xl transition-all duration-300 ease-in-out">JavaScript (ES6+)</div>
+                        </div>
+                        
+                        <div className="stat">
+                            <div className="stat-figure text-secondary">
+                                <NodeJsIcon className="text-2xl" />
+                            </div>
+                            <div className="stat-value text-sm text-[#8CC84B] hover:text-3xl transition-all duration-300 ease-in-out">NodeJS</div>
+                        </div>
+                    </div>
+                    {/* stats 3 */}
+                    <div className="stats shadow flex content-center items-center mb-5">
+                        <div className="stat">
+                            <div className="stat-figure text-secondary">
+                                <ApiIcon className="text-4xl" />
+                            </div>
+                            <div className="stat-value text-sm hover:text-3xl transition-all duration-300 ease-in-out">Express</div>
+                        </div>
+                        
+                        <div className="stat">
+                            <div className="stat-figure text-secondary">
+                                <DynamoDbIcon className="text-4xl" />
+                            </div>
+                            <div className="stat-value text-sm text-[#2D72B8] hover:text-3xl transition-all duration-300 ease-in-out">DynamoDB</div>
+                        </div>
+                        
+                        <div className="stat">
+                            <div className="stat-figure text-secondary">
+                                <MongoDbIcon className="text-4xl" />
+                            </div>
+                            <div className="stat-value text-sm text-[#58AA50] hover:text-3xl transition-all duration-300 ease-in-out">MongoDB</div>
+                        </div>
+                    </div>
+                    {/* stats 4 */}
+                    <div className="stats shadow flex content-center items-center mb-5">
+                        <div className="stat">
+                            <div className="stat-figure text-secondary">
+                                <RestApiIcon className="text-4xl" />
+                            </div>
+                            <div className="stat-value text-sm hover:text-2xl transition-all duration-300 ease-in-out">RESTful API Design</div>
+                        </div>
+                        
+                        <div className="stat">
+                            <div className="stat-figure text-secondary">
+                                <LambdaIcon className="text-4xl" />
+                            </div>
+                            <div className="stat-value text-sm text-[#FA7E14] hover:text-3xl transition-all duration-300 ease-in-out">AWS Lambda</div>
+                        </div>
+                        
+                        <div className="stat">
+                            <div className="stat-figure text-secondary">
+                                <GitHubIcon className="text-4xl" />
+                            </div>
+                            <div className="stat-value text-sm hover:text-3xl transition-all duration-300 ease-in-out">Git & GitHub</div>
+                        </div>
+                    </div>
+                    {/* stats 5 */}
+                    <div className="stats shadow flex content-center items-center mb-5">
+                        <div className="stat">
+                            <div className="stat-figure text-secondary">
+                                <VercelIcon className="text-4xl" />
+                            </div>
+                            <div className="stat-value text-sm  hover:text-3xl transition-all duration-300 ease-in-out">Vercel</div>
+                        </div>
+                        
+                        <div className="stat">
+                            <div className="stat-figure text-secondary">
+                                <DockerIcon className="text-4xl" />
+                            </div>
+                            <div className="stat-value text-sm text-[#1794D4] hover:text-3xl transition-all duration-300 ease-in-out">Docker</div>
+                        </div>
+                        
+                        <div className="stat">
+                            <div className="stat-figure text-secondary">
+                                <AgileIcon className="text-4xl" />
+                            </div>
+                            <div className="stat-value text-sm hover:text-3xl transition-all duration-300 ease-in-out">Agile Methodologies</div>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
-        <ul className="timeline timeline-snap-icon max-sm:timeline-compact timeline-vertical">
-            <li>
-                <div className="timeline-middle">
-                    <HtmlIcon className="text-2xl" />
-                </div>
-                <div className="timeline-start md:text-end mb-10">
-                    <div className="text-lg font-medium mb-5">
-                        Front-end
-                    </div>
-                    <p>
-                        <span className='text-sky-400 font-semibold italic'>React:</span> Creating fast and reactive single-page applications.
-                    </p>
-                    <p>
-                        <span className='text-sky-400 font-semibold italic'>Next.js:</span> Enhancing React applications with server-side rendering and static site generation for improved performance and SEO.
-                    </p>
-                    <p>
-                        <span className='text-sky-400 font-semibold italic'>HTML/CSS:</span> Building responsive and accessible user interfaces.
-                    </p>
-                    <p>
-                        <span className='text-sky-400 font-semibold italic'>JavaScript (ES6+):</span> Implementing dynamic and interactive web elements.
-                    </p>
-                </div>
-                <hr/>
-            </li>
-            <li>
-                <hr />
-                <div className="timeline-middle">
-                    <CodeIcon className="text-2xl text-red-700" />
-                </div>
-                <div className="timeline-end mb-10">
-                    <div className="text-lg font-medium mb-5">
-                        Back-end
-                    </div>
-                    <p>
-                        <span className='text-sky-400 font-semibold italic'>Node.js:</span> Developing scalable and efficient server-side applications.
-                    </p>
-                    <p>
-                        <span className='text-sky-400 font-semibold italic'>Express:</span> Simplifying the creation of web servers and APIs with Node.js.
-                    </p>
-                    <p>
-                        <span className='text-sky-400 font-semibold italic'>DynamoDB:</span> Utilizing this AWS NoSQL database for high-performance, scalable applications, perfect for serverless architectures.
-                    </p>
-                    <p>
-                        <span className='text-sky-400 font-semibold italic'>MongoDB:</span> Using this NoSQL database to store and retrieve data dynamically.
-                    </p>
-                    <p>
-                        <span className='text-sky-400 font-semibold italic'>RESTful API Design:</span> Designing APIs that adhere to REST principles for compatibility and ease of use.
-                    </p>
-                    <p>
-                        <span className='text-sky-400 font-semibold italic'>AWS Lambda:</span> Building and deploying serverless functions to handle backend processes efficiently and cost-effectively.
-                    </p>
-                </div>
-                <hr />
-            </li>
-            <li>
-                <hr />
-                <div className="timeline-middle">
-                    <OtherIcon className="text-2xl text-orange-600" />
-                </div>
-                <div className="timeline-start md:text-end mb-10">
-                    <div className="text-lg font-medium mb-5">
-                        Other
-                    </div>
-                    <p>
-                        <span className='text-sky-400 font-semibold italic'>Git & GitHub:</span> Version control and source code management.
-                    </p>
-                    <p>
-                        <span className='text-sky-400 font-semibold italic'>Vercel:</span> Deploying and hosting Next.js applications with seamless integration and automatic scaling.
-                    </p>
-                    <p>
-                        <span className='text-sky-400 font-semibold italic'>Docker:</span> Containerizing applications for consistent development and deployment environments.
-                    </p>
-                    <p>
-                        <span className='text-sky-400 font-semibold italic'>Agile Methodologies:</span> Working in iterative development cycles, adapting quickly to changes.
-                    </p>
-                </div>
-                <hr />
-            </li>
-        </ul>
-    </div>
-  )
+    )
 }
 
 export default SkillSection

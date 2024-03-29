@@ -6,7 +6,7 @@ import { FaGithub, FaLinkedin } from "react-icons/fa";
 
 const HeroSection = () => {
   return (
-    <div className='my-24'>
+    <div className='bg-[url("/images/hs-bg4.png")] bg-cover bg-center bg-no-repeat max-h-full py-44 px-10 md:px-24 lg:px-[300px] xl:px-[400px] 2xl:px-[600px]'>
         <p className='text-center text-2xl font-bold mt-12 mb-8'>
             Hello, I&apos;m Giang.
         </p>
