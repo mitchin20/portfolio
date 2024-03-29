@@ -24,7 +24,7 @@ const SkillSection = () => {
 
     console.log("screen width: ", isSmall)
     return (
-        <div className='max-h-full py-3 px-4 md:px-24 lg:px-[300px] xl:px-[400px] 2xl:px-[600px]'>
+        <div className='max-h-full py-3 px-4 md:px-24 lg:px-[5%] xl:px-[8%] 2xl:px-[10%]'>
             <div className='divider my-20'>
                 <h1
                     className='font-semibold text-lg'
