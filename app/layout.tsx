@@ -17,7 +17,8 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en" data-theme="wireframe">
-            <body className={`${inter.className} bg-[url('/images/bg.jpg')] bg-cover bg-no-repeat`}>
+            {/* bg-[url('/images/bg.jpg')] bg-cover bg-no-repeat */}
+            <body className={`${inter.className}`}>
                 <NavBar />
                 {children}
             </body>
