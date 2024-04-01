@@ -17,7 +17,8 @@ const LargeScreen = () => {
     useDetectScreenSize(screenSize);
     const isScreenSmall = useAppSelector((state: RootState) => state.isScreenSmall.value);
 
-    const chunkSize = isScreenSmall ? 2 : 3;
+    let chunkSize = isScreenSmall ? 2 : 3;
+
     const chunkArr = (arr: Array<TechStackList>) => {
         const result = [];
         for (let i = 0; i < arr.length; i += chunkSize) {
