@@ -1,124 +1,48 @@
+"use client";
 import React from 'react';
-import { ReactIcon, NextIcon, HtmlIcon, CssIcon, JavaScriptIcon, NodeJsIcon, ApiIcon, DynamoDbIcon, MongoDbIcon, RestApiIcon, LambdaIcon, GitHubIcon, VercelIcon, DockerIcon, AgileIcon } from '../../svgs';
+import { TechStackList } from './TechStackList';
+import { useAppSelector } from '@/app/redux/hooks';
+import { RootState } from '../../../redux/store';
+import useDetectScreenSize from './useDetectScreenSize';
+
+type TechStackList = {
+    name: string;
+    icon: React.ElementType;
+    textColor: string;
+    textStyle: string;
+}
 
 const LargeScreen = () => {
+    useDetectScreenSize();
+    const isScreenSmall = useAppSelector((state: RootState) => state.isScreenSmall.value);
+
+    const chunkSize = isScreenSmall ? 2 : 3;
+    const chunkArr = (arr: Array<TechStackList>) => {
+        const result = [];
+        for (let i = 0; i < arr.length; i += chunkSize) {
+            const chunk = arr.slice(i, i + chunkSize);
+            result.push(chunk);
+        }
+        return result;
+    }
+
+    const chunkedArr = chunkArr(TechStackList);
     return (
         <div>
-            {/* stats 1 */}
-            <div className="stats shadow flex content-center items-center mb-5">
-                <div className="stat">
-                    <div className="stat-figure text-secondary">
-                        <ReactIcon className="text-4xl" />
-                    </div>
-                    <div className="stat-value text-sm text-sky-400 hover:text-3xl transition-all duration-300 ease-in-out">React</div>
+            {chunkedArr.map((row, rowIndex) => (
+                <div key={rowIndex} className="stats shadow flex content-center items-center mb-5">
+                    {row.map(({name, icon: Icon, textStyle}, index) => (
+                        <div key={index} className='stat'>
+                            <div className="stat-figure">
+                                <Icon className='text-4xl' />
+                            </div>
+                            <div className={`${textStyle}`}>
+                                {name}
+                            </div>
+                        </div>
+                    ))}
                 </div>
-                
-                <div className="stat">
-                    <div className="stat-figure text-secondary">
-                        <NextIcon className="text-4xl" />
-                    </div>
-                    <div className="stat-value text-sm hover:text-3xl transition-all duration-300 ease-in-out">NextJS</div>
-                </div>
-                
-                <div className="stat">
-                    <div className="stat-figure text-secondary">
-                        <HtmlIcon className="text-4xl" />
-                    </div>
-                    <div className="stat-value text-sm text-orange-600 hover:text-3xl transition-all duration-300 ease-in-out">HTML</div>
-                </div>
-            </div>
-            {/* stats 2 */}
-            <div className="stats shadow flex content-center items-center mb-5">
-                <div className="stat">
-                    <div className="stat-figure text-secondary">
-                        <CssIcon className="text-4xl" />
-                    </div>
-                    <div className="stat-value text-sm text-[#1171b6] hover:text-3xl transition-all duration-300 ease-in-out">CSS</div>
-                </div>
-                
-                <div className="stat">
-                    <div className="stat-figure text-secondary">
-                        <JavaScriptIcon className="text-4xl" />
-                    </div>
-                    <div className="stat-value text-sm text-[#F7DF1E] hover:text-3xl transition-all duration-300 ease-in-out">JavaScript (ES6+)</div>
-                </div>
-                
-                <div className="stat">
-                    <div className="stat-figure text-secondary">
-                        <NodeJsIcon className="text-2xl" />
-                    </div>
-                    <div className="stat-value text-sm text-[#8CC84B] hover:text-3xl transition-all duration-300 ease-in-out">NodeJS</div>
-                </div>
-            </div>
-            {/* stats 3 */}
-            <div className="stats shadow flex content-center items-center mb-5">
-                <div className="stat">
-                    <div className="stat-figure text-secondary">
-                        <ApiIcon className="text-4xl" />
-                    </div>
-                    <div className="stat-value text-sm hover:text-3xl transition-all duration-300 ease-in-out">Express</div>
-                </div>
-                
-                <div className="stat">
-                    <div className="stat-figure text-secondary">
-                        <DynamoDbIcon className="text-4xl" />
-                    </div>
-                    <div className="stat-value text-sm text-[#2D72B8] hover:text-3xl transition-all duration-300 ease-in-out">DynamoDB</div>
-                </div>
-                
-                <div className="stat">
-                    <div className="stat-figure text-secondary">
-                        <MongoDbIcon className="text-4xl" />
-                    </div>
-                    <div className="stat-value text-sm text-[#58AA50] hover:text-3xl transition-all duration-300 ease-in-out">MongoDB</div>
-                </div>
-            </div>
-            {/* stats 4 */}
-            <div className="stats shadow flex content-center items-center mb-5">
-                <div className="stat">
-                    <div className="stat-figure text-secondary">
-                        <RestApiIcon className="text-4xl" />
-                    </div>
-                    <div className="stat-value text-sm hover:text-2xl transition-all duration-300 ease-in-out">RESTful API Design</div>
-                </div>
-                
-                <div className="stat">
-                    <div className="stat-figure text-secondary">
-                        <LambdaIcon className="text-4xl" />
-                    </div>
-                    <div className="stat-value text-sm text-[#FA7E14] hover:text-3xl transition-all duration-300 ease-in-out">AWS Lambda</div>
-                </div>
-                
-                <div className="stat">
-                    <div className="stat-figure text-secondary">
-                        <GitHubIcon className="text-4xl" />
-                    </div>
-                    <div className="stat-value text-sm hover:text-3xl transition-all duration-300 ease-in-out">Git & GitHub</div>
-                </div>
-            </div>
-            {/* stats 5 */}
-            <div className="stats shadow flex content-center items-center mb-5">
-                <div className="stat">
-                    <div className="stat-figure text-secondary">
-                        <VercelIcon className="text-4xl" />
-                    </div>
-                    <div className="stat-value text-sm  hover:text-3xl transition-all duration-300 ease-in-out">Vercel</div>
-                </div>
-                
-                <div className="stat">
-                    <div className="stat-figure text-secondary">
-                        <DockerIcon className="text-4xl" />
-                    </div>
-                    <div className="stat-value text-sm text-[#1794D4] hover:text-3xl transition-all duration-300 ease-in-out">Docker</div>
-                </div>
-                
-                <div className="stat">
-                    <div className="stat-figure text-secondary">
-                        <AgileIcon className="text-4xl" />
-                    </div>
-                    <div className="stat-value text-sm hover:text-3xl transition-all duration-300 ease-in-out">Agile Methodologies</div>
-                </div>
-            </div>
+            ))}
         </div>
     )
 }
