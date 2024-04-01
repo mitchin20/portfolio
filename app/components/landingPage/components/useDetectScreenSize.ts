@@ -2,12 +2,12 @@ import { useEffect } from "react";
 import { useAppDispatch } from "@/app/redux/hooks";
 import { setIsSmall } from "@/app/redux/screenSize/screenSizeSlice";
 
-const useDetectScreenSize = () => {
+const useDetectScreenSize = (screenSize: number) => {
     const dispatch = useAppDispatch();
 
     useEffect(() => {
         const handleResize = () => {
-            const isSmall = window.innerWidth < 1024;
+            const isSmall = window.innerWidth < screenSize;
             dispatch(setIsSmall(isSmall))
         }
 

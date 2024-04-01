@@ -8,7 +8,7 @@ const SkillSection = () => {
 
     useEffect(() => {
         const checkSize = () => {
-            if(window.innerWidth < 769) {
+            if (window.innerWidth < 769) {
                 setIsSmall(true);
             } else {
                 setIsSmall(false);
@@ -23,7 +23,7 @@ const SkillSection = () => {
     }, [])
 
     return (
-        <div className='max-h-full py-3 px-4 md:px-24 lg:px-[5%] xl:px-[8%] 2xl:px-[10%]'>
+        <div className='bg-[url("/images/skills-bg.jpg")] bg-cover bg-center bg-no-repeat max-h-full py-3 px-4 md:px-24 lg:px-[5%] xl:px-[8%] 2xl:px-[10%]'>
             <div className='divider my-20'>
                 <h1
                     className='font-semibold text-lg'
@@ -31,10 +31,9 @@ const SkillSection = () => {
                     Tech Stack
                 </h1>
             </div>
-            {isSmall && (
+            {isSmall ? (
                 <SmallScreen />
-            )}
-            {!isSmall && (
+            ) : (
                 <LargeScreen />
             )}
         </div>
