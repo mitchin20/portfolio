@@ -13,7 +13,8 @@ type TechStackList = {
 }
 
 const LargeScreen = () => {
-    useDetectScreenSize();
+    const screenSize = 1024
+    useDetectScreenSize(screenSize);
     const isScreenSmall = useAppSelector((state: RootState) => state.isScreenSmall.value);
 
     const chunkSize = isScreenSmall ? 2 : 3;

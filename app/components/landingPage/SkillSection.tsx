@@ -8,7 +8,7 @@ const SkillSection = () => {
 
     useEffect(() => {
         const checkSize = () => {
-            if(window.innerWidth < 769) {
+            if (window.innerWidth < 769) {
                 setIsSmall(true);
             } else {
                 setIsSmall(false);
@@ -31,10 +31,9 @@ const SkillSection = () => {
                     Tech Stack
                 </h1>
             </div>
-            {isSmall && (
+            {isSmall ? (
                 <SmallScreen />
-            )}
-            {!isSmall && (
+            ) : (
                 <LargeScreen />
             )}
         </div>
