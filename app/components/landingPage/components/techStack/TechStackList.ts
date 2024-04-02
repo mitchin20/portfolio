@@ -1,4 +1,4 @@
-import { ReactIcon, NextIcon, HtmlIcon, CssIcon, JavaScriptIcon, NodeJsIcon, ApiIcon, DynamoDbIcon, MongoDbIcon, RestApiIcon, LambdaIcon, GitHubIcon, VercelIcon, DockerIcon, AgileIcon } from '../../svgs';
+import { ReactIcon, NextIcon, HtmlIcon, CssIcon, JavaScriptIcon, NodeJsIcon, ApiIcon, DynamoDbIcon, MongoDbIcon, RestApiIcon, LambdaIcon, GitHubIcon, VercelIcon, DockerIcon, AgileIcon } from '../../../svgs';
 
 export const TechStackList = [
     {

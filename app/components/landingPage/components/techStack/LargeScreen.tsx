@@ -2,8 +2,8 @@
 import React from 'react';
 import { TechStackList } from './TechStackList';
 import { useAppSelector } from '@/app/redux/hooks';
-import { RootState } from '../../../redux/store';
-import useDetectScreenSize from './useDetectScreenSize';
+import { RootState } from '../../../../redux/store';
+import useDetectScreenSize from '../useDetectScreenSize';
 import { motion } from 'framer-motion';
 
 const upVariants = {
@@ -52,7 +52,7 @@ const LargeScreen = () => {
                 duration: 0.5
             }}
             viewport={{
-                once: false,
+                once: true,
                 amount: 0.5
             }}
         >

@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from 'react';
-import SmallScreen from './components/SmallScreen';
-import LargeScreen from './components/LargeScreen';
+import SmallScreen from './components/techStack/SmallScreen';
+import LargeScreen from './components/techStack/LargeScreen';
 
 const SkillSection = () => {
     const [isSmall, setIsSmall] = useState<Boolean>(false);
