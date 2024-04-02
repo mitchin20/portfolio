@@ -3,7 +3,7 @@ import prisma from "@/prisma/client";
 
 export async function GET() {
     try {
-        const projects = await prisma.projects.findMany();
+        const projects = await prisma.project.findMany();
 
         return NextResponse.json({ projects });
     } catch (error) {

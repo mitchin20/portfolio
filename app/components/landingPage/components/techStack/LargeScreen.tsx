@@ -2,8 +2,8 @@
 import React from 'react';
 import { TechStackList } from './TechStackList';
 import { useAppSelector } from '@/app/redux/hooks';
-import { RootState } from '../../../redux/store';
-import useDetectScreenSize from './useDetectScreenSize';
+import { RootState } from '../../../../redux/store';
+import useDetectScreenSize from '../useDetectScreenSize';
 import { motion } from 'framer-motion';
 
 const upVariants = {
@@ -44,20 +44,21 @@ const LargeScreen = () => {
 
     const chunkedArr = groupArr(TechStackList);
     return (
-        <div>
+        <motion.div
+            initial="hidden"
+            whileInView="visible"
+            variants={upVariants}
+            transition={{
+                duration: 0.5
+            }}
+            viewport={{
+                once: true,
+                amount: 0.5
+            }}
+        >
             {chunkedArr.map((row, rowIndex) => (
-                <motion.div 
+                <div 
                     key={rowIndex} 
-                    initial="hidden"
-                    whileInView="visible"
-                    variants={upVariants}
-                    transition={{
-                        duration: 0.5
-                    }}
-                    viewport={{
-                        once: false,
-                        amount: 0.5
-                    }}
                     className="stats shadow flex content-center items-center mb-5 "
                 >
                     {row.map(({name, icon: Icon, textStyle}, index) => (
@@ -70,9 +71,9 @@ const LargeScreen = () => {
                             </div>
                         </div>
                     ))}
-                </motion.div>
+                </div>
             ))}
-        </div>
+        </motion.div>
     )
 }
 

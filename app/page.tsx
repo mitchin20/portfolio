@@ -1,6 +1,7 @@
 import HeroSection from "./components/landingPage/HeroSection";
 import AboutSection from "./components/landingPage/AboutSection";
 import SkillSection from "./components/landingPage/SkillSection";
+// import ProjectsSection from "./components/landingPage/ProjectsSection";
 
 export default function Home() {
     return (
@@ -8,6 +9,7 @@ export default function Home() {
             <HeroSection />
             <AboutSection />
             <SkillSection />
+            {/* <ProjectsSection /> */}
         </div>
     )
 }
