@@ -23,13 +23,14 @@ async function validateEmail(email: string) {
 export async function POST( req: Request ) {
     try {
         const body = await req.json();
+        console.log("***", body)
         // Validation
         await userSchema.validate(body);
 
         const { firstName, lastName, email, password } = body;
 
         const existedEmail = await validateEmail(email);
-        // Validate user email if it already existed
+        // Validate user email if it  already existed
         if (existedEmail) {
             return NextResponse.json(
                 {

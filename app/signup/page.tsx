@@ -1,157 +1,112 @@
 'use client';
-import React, { ChangeEvent, FormEvent, useState } from 'react';
+import React, { useEffect } from 'react';
+import { useFormState } from 'react-dom';
 import Link from 'next/link';
-import * as yup from 'yup';
+import { signup } from './actions';
 
-const userSchema = yup.object({
-    firstName: yup.string().min(2).required('Required'),
-    lastName: yup.string().min(2).required('Required'),
-    email: yup.string().email('Invalid email address.').required('Required'),
-    password: yup.string().min(8).required('Required: must be at least 8 characters long.')
-})
-
-interface User {
-    firstName: string,
-    lastName: string,
-    email: string,
-    password: string
+const initialState = {
+    success: false,
+    message: '',
 }
 
-interface Error {
-    [key: string]: string,
-}
-
-const SignUp = () => {
-    const [formInput, setFormInput] = useState<User>({
-        firstName: '',
-        lastName: '',
-        email: '',
-        password: '',
-    });
-    const [confirmPassword, setConfirmPassword] = useState<string>('');
-    const [error, setError] = useState<Error>({});
-
-    // Handle input fields value changes
-    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
-        setFormInput((prevFormData) => ({
-            ...prevFormData,
-            [name]: value,
-        }))
-    } 
-
-    // Handle form submission
-    const handleSubmit = async (e: FormEvent) => {
-        e.preventDefault();
-        setError({});
-        // Check if password match
-        if (confirmPassword !== formInput.password) {
-            setError(prev => ({
-                ...prev,
-                confirmPassword: "Password do not match."
-            }))
-            return;
-        }
-        try {   
-            // Validate inputs
-            await userSchema.validate(formInput, { abortEarly: false });
-            setError({});
-
-            console.log('User input: ', formInput);
-            // Proceed form submission actions
-        } catch (error) {
-            if (error instanceof yup.ValidationError) {
-                const validationErrors = error.inner.reduce((acc: Error, curr) => ({
-                    ...acc,
-                    [curr.path as string]: curr.message,
-                }), {})
-                setError(validationErrors)
-            }
-        }
-    }
+export default function SignUp() {
+    const [formState, formAction] = useFormState(signup, initialState);
 
     return (
         <div className='flex w-full h-svh mt-[-80px] place-content-center place-items-center'>
-            <div className="card w-7/12 bg-base-100 shadow-xl">
+            <div className="card md:w-7/12 sm:w-11/12 bg-base-100 shadow-xl">
+                {formState.success ? (
+                    <div>
+                        {formState.message}
+                    </div>
+                ) : (
+                    <div>
+                        {formState.message}
+                    </div>
+                )}
                 <form 
-                    onSubmit={handleSubmit}
-                    className="card-body items-center text-center"
+                    action={formAction}
+                    className="card-body"
                 >
-                    <h2 className="card-title mb-5">Sign Up</h2>
+                    <h2 className="card-title mb-5 place-content-center">
+                        Sign Up
+                    </h2>
 
-                    <div className='grid grid-cols-2 gap-4'>
-                        {/* <div> */}
-                            <label className='input input-bordered flex items-center gap-2 w-full required:border-red-400' >
-                                <input 
-                                    id='firstName'
-                                    name='firstName'
-                                    value={formInput.firstName}
-                                    onChange={handleChange}
-                                    type='text' 
-                                    className='grow' 
-                                    placeholder='First Name' 
-                                />
-                            </label>
-                            {error.firstName && <p>{error.firstName}</p>}
-                        {/* </div> */}
+                    <div className='md:grid md:grid-cols-2 gap-4'>
+                        {/* <label className={`input input-bordered flex items-center gap-2 sm:mb-2 ${error.firstName ? 'border-red-400' : ''}`} > */}
+                        <label className={`input input-bordered flex items-center gap-2 sm:mb-2`} >
+                            <input 
+                                id='firstName'
+                                name='firstName'
+                                // value={formData.firstName}
+                                // onChange={handleChange}
+                                type='text' 
+                                className='grow' 
+                                placeholder='First Name' 
+                            />
+                        </label>
+                        {/* {error.firstName && <p className='text-red-500 text-sm mb-4'>{error.firstName}</p>} */}
 
-                        {/* <div> */}
-                            <label className='input input-bordered flex items-center gap-2 w-full required:border-red-400' >
-                                <input 
-                                    id='lastName'
-                                    name='lastName'
-                                    value={formInput.lastName}
-                                    onChange={handleChange}
-                                    type='text' 
-                                    className='grow' 
-                                    placeholder='Last Name' 
-                                />
-                            </label>
-                            {error.lastName && <p>{error.lastName}</p>}
-                        {/* </div> */}
+                        {/* <label className={`input input-bordered flex items-center gap-2 ${error.lastName ? 'border-red-400' : ''}`} > */}
+                        <label className={`input input-bordered flex items-center gap-2`} >
+                            <input 
+                                id='lastName'
+                                name='lastName'
+                                // value={formData.lastName}
+                                // onChange={handleChange}
+                                type='text' 
+                                className='grow' 
+                                placeholder='Last Name' 
+                            />
+                        </label>
+                        {/* {error.lastName && <p className='text-red-500 text-sm mb-4'>{error.lastName}</p>} */}
                     </div>
 
-                    <label className='input input-bordered flex items-center gap-2 w-full required:border-red-400' >
+                    {/* <label className={`input input-bordered flex items-center gap-2 w-full ${error.email ? 'border-red-400' : ''}`} > */}
+                    <label className={`input input-bordered flex items-center gap-2 w-full`} >
                         <input 
                             id='email'
                             name='email'
-                            value={formInput.email}
-                            onChange={handleChange}
+                            // value={formData.email}
+                            // onChange={handleChange}
                             type='text' 
                             className='grow' 
                             placeholder='Email' 
                         />
                     </label>
-                    {error.email && <p>{error.email}</p>}
+                    {/* {error.email && <p className='text-red-500 text-sm mb-4'>{error.email}</p>} */}
 
                     {/* Password */}
-                    <label className='input input-bordered flex items-center gap-2 w-full required:border-red-400' >
+                    {/* <label className={`input input-bordered flex items-center gap-2 w-full ${error.password ? 'border-red-400' : ''}`} > */}
+                    <label className={`input input-bordered flex items-center gap-2 w-full`} >
                         <input 
                             id='password'
                             name='password'
-                            value={formInput.password}
-                            onChange={handleChange}
+                            // value={formData.password}
+                            // onChange={handleChange}
                             type='password' 
                             className='grow' 
                             placeholder='Password' 
                         />
                     </label>
-                    {error.password && <p>{error.password}</p>}
+                    {/* {error.password && <p className='text-red-500 text-sm mb-4'>{error.password}</p>} */}
                     
-                    <label className='input input-bordered flex items-center gap-2 w-full required:border-red-400' >
+                    {/* <label className={`input input-bordered flex items-center gap-2 w-full ${error.confirmPassword || error.password ? 'border-red-400' : ''}`} > */}
+                    <label className={`input input-bordered flex items-center gap-2 w-full`} >
                         <input 
                             id='confirmPassword'
                             name='confirmPassword'
-                            value={confirmPassword}
-                            onChange={(e) => setConfirmPassword(e.target.value)}
+                            // value={confirmPassword}
+                            // onChange={(e) => setConfirmPassword(e.target.value)}
                             type='password' 
                             className='grow' 
                             placeholder='Confirm Password' 
                         />
                     </label>
-                    {error.confirmPassword && <p>{error.confirmPassword}</p>}
+                    {/* {error.confirmPassword && <p className='text-red-500 text-sm mb-4'>{error.confirmPassword}</p>} */}
                     
-                    <div className="card-actions w-[100%] px-5 sm:px-0 my-3">
+                    {/* border-red-400 */}
+                    <div className="card-actions w-[100%] px-5 sm:px-0 mt-5">
                         <button 
                             type='submit'
                             className="btn btn-primary w-full rounded-full"
@@ -161,7 +116,7 @@ const SignUp = () => {
                     </div>
                 </form>
 
-                <div className='text-center text-sm font-light text-gray-500'>
+                <div className='text-center text-sm mb-4 font-light text-gray-500'>
                     Already have an account? <span>
                         <Link
                             href='/'
@@ -174,5 +129,3 @@ const SignUp = () => {
         </div>
     )
 }
-
-export default SignUp
