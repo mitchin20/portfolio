@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useFormState } from 'react-dom';
 import Link from 'next/link';
 import { signup } from './actions';
@@ -15,15 +15,6 @@ export default function SignUp() {
     return (
         <div className='flex w-full h-svh mt-[-80px] place-content-center place-items-center'>
             <div className="card md:w-7/12 sm:w-11/12 bg-base-100 shadow-xl">
-                {formState.success ? (
-                    <div>
-                        {formState.message}
-                    </div>
-                ) : (
-                    <div>
-                        {formState.message}
-                    </div>
-                )}
                 <form 
                     action={formAction}
                     className="card-body"

@@ -60,6 +60,6 @@ export async function signup(
             };
         }
     } finally {
-        redirect("/");
+        redirect("/signin");
     }
 }
