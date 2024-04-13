@@ -1,0 +1,30 @@
+import { cookies } from "next/headers";
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
+import * as jose from "jose";
+
+export async function middleware(request: NextRequest) {
+    // Check for cookies
+    const cookie = cookies().get("Authorization");
+    if (!cookie) {
+        return NextResponse.redirect(new URL("/signin", request.url));
+    }
+    
+    // Validate cookies
+    const secret = new TextEncoder().encode(process.env.JWT_SECRET);
+    const jwt = cookie.value;
+    
+    try {
+        const { payload } = await jose.jwtVerify(jwt, secret, {});
+
+        // Get user
+        // Base on user role direct to certain page
+    } catch (error) {
+        console.error("Failed to get jwt token:", error);
+        return NextResponse.redirect(new URL("/signin", request.url));
+    }
+}
+
+export const config = {
+    matcher: "/dashboard/:path*",
+};
