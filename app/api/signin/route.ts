@@ -31,14 +31,20 @@ export async function POST(req: Request) {
 
     // JWT token
     const secret = new TextEncoder().encode(process.env.JWT_SECRET)
-      const alg = 'HS256'
-      
-      const jwt = await new jose.SignJWT({})
-        .setProtectedHeader({ alg })
-        .setExpirationTime('2h')
-        .setSubject(existingUser.id.toString())
-        .sign(secret)
+        const alg = 'HS256'
+        
+        const jwt = await new jose.SignJWT({
+            id: existingUser.id,
+            role: existingUser.role
+        })
+            .setProtectedHeader({ alg })
+            .setExpirationTime('2h')
+            .setSubject(existingUser.id.toString())
+            .sign(secret)
       
 
-    return Response.json({ token: jwt });
+    return Response.json({ 
+        token: jwt,
+        role: existingUser.role
+    });
 }

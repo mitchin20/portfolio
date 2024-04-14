@@ -20,46 +20,36 @@ export async function signUp(
         password: formData.get("password"),
     }
 
-    try {
-        // Validate data
-        if (formData.get("password") !== formData.get("confirmPassword")) {
-            return {
-                success: false,
-                message: "Password do not match."
-            }
-        }
-        await userSchema.parseAsync(newUser);
-
-        const response = await fetch(`${process.env.ROOT_URL}/api/signup`, {
-            method: 'POST',
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(newUser)
-        });
-
-        if (response.ok) {
-            redirect("/signin")
-        } else {
-            return {
-                success: false,
-                message: "Unable to sign up."
-            }
-        }
-    } catch (error) {
-        if (error instanceof z.ZodError) {
-            const validateErrors = error.issues.map(err => err.message)
-
-            console.error("Error during sign up:", validateErrors);
-            return {
-                success: false,
-                message: validateErrors.join(", ")
-            }
-        } else {
-            return {
-                success: false,
-                message: "Network Error"
-            }
+    // Validate data
+    if (formData.get("password") !== formData.get("confirmPassword")) {
+        return {
+            success: false,
+            message: "Password do not match."
         }
     }
+    const result = await userSchema.safeParseAsync(newUser);
+    if (!result.success) {
+        console.error("Validation failed:", result.error.issues)
+        return {
+            success: false,
+            message: "Validation failed."
+        }
+    }
+
+    const response = await fetch(`${process.env.ROOT_URL}/api/signup`, {
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(newUser)
+    });
+
+    if (!response.ok) {
+        return {
+            success: false,
+            message: "Unable to sign up."
+        }
+    }
+
+    redirect("/signin")
 }

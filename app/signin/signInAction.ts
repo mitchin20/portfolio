@@ -32,7 +32,12 @@ export async function signIn(
 
     // Redirect user if response success
     if (response.ok) {
-        redirect("/dashboard")
+        switch (json.role) {
+            case 'SUPER_ADMIN':
+                redirect("/dashboard");
+            default:
+                redirect("/");
+        }
     } else {
         return json.error;
     }
