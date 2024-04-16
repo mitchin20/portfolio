@@ -14,18 +14,20 @@ async function verifyToken(token: string, secret: any) {
 }
 
 export async function middleware(request: NextRequest) {
+    const url = new URL(request.url);
+
+    // Public paths that do not require authentication
+    const publicPaths = ["/", "/signin", "/signup"];
+    if (publicPaths.includes(url.pathname)) {
+        return NextResponse.next();
+    }
+
     // Check for cookies
     const cookie = cookies().get("Authorization");
     if (!cookie) {
         return NextResponse.redirect(new URL("/signin", request.url));
     }
 
-    const url = new URL(request.url);
-
-    if (url.pathname.startsWith("/dashboard")) {
-        return NextResponse.next();
-    }
-    
     // Validate cookies
     const secret = new TextEncoder().encode(process.env.JWT_SECRET);
     const jwt = cookie.value;
@@ -33,6 +35,7 @@ export async function middleware(request: NextRequest) {
     try {
         const userData = await verifyToken(jwt, secret);
         
+        // Redirect logic based on role
         if (userData.role === "SUPER_ADMIN" && !url.pathname.startsWith("/dashboard")) {
             return NextResponse.redirect(new URL("/dashboard", request.url));
         } else if (userData.role !== "SUPER_ADMIN" && url.pathname !== "/") {
@@ -42,7 +45,10 @@ export async function middleware(request: NextRequest) {
         return NextResponse.next();
     } catch (error) {
         console.error("Failed to get jwt token:", error);
-        return NextResponse.redirect(new URL("/signin", request.url));
+        // Clear the invalid cookie
+        const response = NextResponse.redirect(new URL("/signin", request.url));
+        response.headers.set('Set-Cookie', 'Authorization=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT; HttpOnly; SameSite=Strict');
+        return response;
     }
 }
 

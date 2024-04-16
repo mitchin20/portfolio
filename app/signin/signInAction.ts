@@ -28,7 +28,7 @@ export async function signIn(
         expires: new Date(new Date().getTime() + 2 * 60 * 60 * 1000),
         path: '/',
         sameSite: 'strict',
-    })
+    });
 
     // Redirect user if response success
     if (response.ok) {

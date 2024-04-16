@@ -1,9 +1,15 @@
-import React from 'react'
+import React from "react";
+import SignOutButton from "./signOutButton";
 
 const Dashboard = () => {
-  return (
-    <div>Dashboard</div>
-  )
-}
+    return (
+        <div>
+            <h1>Dashboard</h1>
+            <div>
+                <SignOutButton />
+            </div>
+        </div>
+    );
+};
 
-export default Dashboard
+export default Dashboard;
