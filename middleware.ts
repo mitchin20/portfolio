@@ -34,6 +34,11 @@ export async function middleware(request: NextRequest) {
     
     try {
         const userData = await verifyToken(jwt, secret);
+
+        // Ensure any authenticated user can access /user routes
+        if (url.pathname.startsWith("/user")) {
+            return NextResponse.next();
+        }
         
         // Redirect logic based on role
         if (userData.role === "SUPER_ADMIN" && !url.pathname.startsWith("/dashboard")) {
@@ -53,5 +58,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-    matcher: ["/dashboard/:path*"]
+    matcher: ["/dashboard/:path*", "/user/:path*", "/loading"]
 };

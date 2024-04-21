@@ -36,7 +36,7 @@ export async function signUp(
         }
     }
 
-    const response = await fetch(`${process.env.ROOT_URL}/api/signup`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_ROOT_URL}/api/signup`, {
         method: 'POST',
         headers: {
             "Content-Type": "application/json"

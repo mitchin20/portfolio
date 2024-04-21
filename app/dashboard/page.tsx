@@ -1,5 +1,6 @@
 import React from "react";
 import SignOutButton from "./signOutButton";
+import Link from "next/link";
 
 const Dashboard = () => {
     return (
@@ -8,6 +9,11 @@ const Dashboard = () => {
             <div>
                 <SignOutButton />
             </div>
+            <Link
+                href={"/user"}
+            >
+                User page
+            </Link>
         </div>
     );
 };

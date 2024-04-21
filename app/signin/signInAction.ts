@@ -12,7 +12,7 @@ export async function signIn(
     const password = formData.get("password");
 
     // Sign in
-    const response = await fetch(`${process.env.ROOT_URL}/api/signin`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_ROOT_URL}/api/signin`, {
         method: 'POST',
         headers: {
             "Content-Type": "application/json"
