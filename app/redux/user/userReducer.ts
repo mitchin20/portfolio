@@ -2,11 +2,11 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "../store";
 
 interface User {
-    id: string;
-    firstName: string;
-    lastName: string;
-    email: string;
-    role: string;
+    id: number | null;
+    firstName: string | null;
+    lastName: string | null;
+    email: string | null;
+    role: string | null;
 }
 interface UserState {
     user: User | null;
@@ -29,7 +29,7 @@ export const userSlice = createSlice({
     }
 })
 
-export const selectUser = (state: RootState) => state.user.user;
+export const selectUser = (state: RootState) => state.userData.user;
 
 export default userSlice.reducer;
 

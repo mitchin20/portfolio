@@ -122,7 +122,7 @@ export async function GET(req: Request) {
             if (existingUser) {
                 const { password: _, ...user } = existingUser;
                 return NextResponse.json({
-                    user
+                    user: user
                 })
             } else {
                 console.error("User is null and cannot be processed.");
@@ -131,6 +131,11 @@ export async function GET(req: Request) {
                     error: "User is null and cannot be processed."
                 })
             }
+        } else {
+            return NextResponse.json({
+                user: null,
+                error: "Failed to get token."
+            })
         }
 
     } catch (error) {

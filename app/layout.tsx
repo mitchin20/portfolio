@@ -21,8 +21,10 @@ export default function RootLayout({
             <html lang="en" data-theme="wireframe">
                 {/* bg-[url('/images/bg.jpg')] bg-cover bg-no-repeat */}
                 <body className={`${inter.className}`}>
+                    <div>
                         <NavBar />
                         {children}
+                    </div>
                 </body>
             </html>
         </StoreProvider>

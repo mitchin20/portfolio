@@ -5,7 +5,7 @@ import userReducer from './user/userReducer';
 
 export const store = configureStore({
     reducer: {
-        user: userReducer,
+        userData: userReducer,
         counter: counterSlice,
         isScreenSmall: screenSizeSlice
     }

@@ -3,7 +3,13 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
-export async function signOutAction() {
+interface signOutAction {
+    currentPath: string
+}
+
+export async function signOutAction({
+    currentPath
+}: signOutAction) {
     const cookie = cookies().delete("Authorization");
 
     if (cookie) {
@@ -14,5 +20,10 @@ export async function signOutAction() {
         }
     }
 
-    redirect("/");
+    if (currentPath === "/") {
+        redirect('/signin')
+    } else {
+        redirect("/");
+    }
+
 }
