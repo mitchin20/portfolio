@@ -1,9 +1,11 @@
 import { Action, configureStore, ThunkAction } from '@reduxjs/toolkit';
 import counterSlice from './counter/counterSlice';
 import screenSizeSlice from './screenSize/screenSizeSlice';
+import userReducer from './user/userReducer';
 
 export const store = configureStore({
     reducer: {
+        userData: userReducer,
         counter: counterSlice,
         isScreenSmall: screenSizeSlice
     }
