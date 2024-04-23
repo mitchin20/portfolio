@@ -13,6 +13,8 @@ export async function POST(req: Request) {
         where: { email: email }
     })
 
+    console.log("Existing User", existingUser);
+
     if (existingUser) {
         return Response.json({
             error: "Email already existed."
