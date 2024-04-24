@@ -3,8 +3,8 @@
 import React from "react";
 import { useFormState, useFormStatus } from "react-dom";
 import { signIn } from "./signInAction";
-import { useAppSelector } from "../redux/hooks";
-import { getSignUpState } from "../redux/signup/signupReducer";
+import { useAppSelector } from "@/redux/hooks";
+import { getSignUpState } from "@/redux/signup/signupReducer";
 
 const SignIn = () => {
     const signUpState = useAppSelector(getSignUpState);
