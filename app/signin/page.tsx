@@ -3,8 +3,12 @@
 import React from "react";
 import { useFormState, useFormStatus } from "react-dom";
 import { signIn } from "./signInAction";
+import { useAppSelector } from "@/redux/hooks";
+import { getSignUpState } from "@/redux/signup/signupReducer";
 
 const SignIn = () => {
+    const signUpState = useAppSelector(getSignUpState);
+
     const [formState, formAction] = useFormState(signIn, undefined);
 
     return (
@@ -29,6 +33,11 @@ const SignIn = () => {
                             />
                         </svg>
                         <span>{formState}</span>
+                    </div>
+                )}
+                {signUpState?.success && (
+                    <div className="text-center text-green-600">
+                        {signUpState.message}
                     </div>
                 )}
                 <div className="sm:mx-auto sm:w-full sm:max-w-sm">

@@ -2,8 +2,8 @@
 
 import React, { useEffect, useState } from "react";
 import { signOutAction } from "./signOutAction";
-import { useAppDispatch } from "@/app/redux/hooks";
-import { setUser } from "@/app/redux/user/userActions";
+import { useAppDispatch } from "@/redux/hooks";
+import { setUser } from "@/redux/user/userActions";
 
 const SignOutButton = () => {
     const dispatch = useAppDispatch();

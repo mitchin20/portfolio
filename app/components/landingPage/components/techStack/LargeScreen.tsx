@@ -1,8 +1,8 @@
 "use client";
 import React from 'react';
 import { TechStackList } from './TechStackList';
-import { useAppSelector } from '@/app/redux/hooks';
-import { RootState } from '../../../../redux/store';
+import { useAppSelector } from '@/redux/hooks';
+import { getScreenSize } from '@/redux/screenSize/screenSizeReducer';
 import useDetectScreenSize from '../useDetectScreenSize';
 import { motion } from 'framer-motion';
 
@@ -27,7 +27,7 @@ type TechStackList = {
 const LargeScreen = () => {
     const screenSize = 1024
     useDetectScreenSize(screenSize);
-    const isScreenSmall = useAppSelector((state: RootState) => state.isScreenSmall.value);
+    const isScreenSmall = useAppSelector(getScreenSize);
 
     let groupSize = isScreenSmall ? 2 : 3;
 

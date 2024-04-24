@@ -1,8 +1,11 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useFormState, useFormStatus } from "react-dom";
 import { signUp } from "./signUpAction";
+import { useRouter } from "next/navigation";
+import { useAppDispatch } from "@/redux/hooks";
+import { setSignUpState } from "@/redux/signup/signupActions";
 
 const initialState = {
     success: false,
@@ -10,7 +13,16 @@ const initialState = {
 };
 
 const SignUp = () => {
+    const dispatch = useAppDispatch();
+    const router = useRouter();
     const [formState, formAction] = useFormState(signUp, initialState);
+
+    useEffect(() => {
+        if (formState.success) {
+            dispatch(setSignUpState(formState));
+            router.push("/signin");
+        }
+    }, [dispatch, formState.success])
 
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");

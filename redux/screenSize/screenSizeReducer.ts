@@ -1,25 +1,24 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "../store";
 
-// Define type for slice state
-export interface ScreenState {
-    value: boolean
+interface ScreenState {
+    value: boolean;
 }
 
-// Define initial state using type
 const initialState: ScreenState = {
     value: false
 }
 
-const screenSizeSlice = createSlice({
+export const screenSizeSlice = createSlice({
     name: 'screenSize',
     initialState,
     reducers: {
-        setIsSmall: (state, action: PayloadAction<boolean>) => {
+        setSize: (state, action: PayloadAction<boolean>) => {
             state.value = action.payload;
         }
     }
 })
 
-export const { setIsSmall } = screenSizeSlice.actions;
+export const getScreenSize = (state: RootState) => state.screenSize.value;
+
 export default screenSizeSlice.reducer;
