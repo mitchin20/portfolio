@@ -1,4 +1,4 @@
-import { StoreProvider } from "./redux/StoreProvider";
+import { ReduxProvider } from "@/redux/ReduxProvider";
 import NavBar from "./components/navbar/NavBar";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
@@ -17,16 +17,14 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <StoreProvider>
+        <ReduxProvider>
             <html lang="en" data-theme="wireframe">
                 {/* bg-[url('/images/bg.jpg')] bg-cover bg-no-repeat */}
                 <body className={`${inter.className}`}>
-                    <div>
-                        <NavBar />
-                        {children}
-                    </div>
+                    <NavBar />
+                    {children}
                 </body>
             </html>
-        </StoreProvider>
+        </ReduxProvider>
     );
 }

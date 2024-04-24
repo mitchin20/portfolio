@@ -3,8 +3,8 @@
 import HeroSection from "./components/landingPage/HeroSection";
 import AboutSection from "./components/landingPage/AboutSection";
 import SkillSection from "./components/landingPage/SkillSection";
-import { setUser } from "./redux/user/userActions";
-import { useAppDispatch } from "./redux/hooks";
+import { useAppDispatch } from "@/redux/hooks";
+import { setUser } from "@/redux/user/userActions";
 import { useEffect } from "react";
 import { currentUser } from "./useFetchCurrentUser";
 

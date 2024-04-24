@@ -51,5 +51,10 @@ export async function signUp(
         }
     }
 
-    redirect("/signin")
+    return {
+        success: true,
+        message: "Successfully signed up."
+    }
+
+    // redirect("/signin")
 }

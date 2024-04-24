@@ -1,18 +1,19 @@
 import { Action, configureStore, ThunkAction } from '@reduxjs/toolkit';
-import counterSlice from './counter/counterSlice';
-import screenSizeSlice from './screenSize/screenSizeSlice';
+import screenSizeReducer from './screenSize/screenSizeReducer';
 import userReducer from './user/userReducer';
+import signupReducer from './signup/signupReducer';
 
 export const store = configureStore({
     reducer: {
+        screenSize: screenSizeReducer,
         userData: userReducer,
-        counter: counterSlice,
-        isScreenSmall: screenSizeSlice
+        signUpData: signupReducer,
     }
 })
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>
+
 // Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
 export type AppDispatch = typeof store.dispatch
 

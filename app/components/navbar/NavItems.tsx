@@ -4,8 +4,8 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { UserIcon } from "../svgs";
 import SignOutButton from "../signOut/SignOutButton";
-import { useAppSelector } from "@/app/redux/hooks";
-import { selectUser } from "@/app/redux/user/userReducer";
+import { useAppSelector } from "@/redux/hooks";
+import { getUser } from "@/redux/user/userReducer";
 
 interface User {
     id: number | null;
@@ -18,7 +18,7 @@ interface User {
 const NavItems = () => {
     const [user, setUser] = useState<User | null>(null);
     const [isScreenSmall, setIsScreenSmall] = useState<boolean>(false);
-    const userData = useAppSelector(selectUser);
+    const userData = useAppSelector(getUser);
     
     useEffect(() => {
         if (userData) {
