@@ -4,8 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useFormState, useFormStatus } from "react-dom";
 import { signUp } from "./signUpAction";
 import { useRouter } from "next/navigation";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { getSignUpState } from "@/redux/signup/signupReducer";
+import { useAppDispatch } from "@/redux/hooks";
 import { setSignUpState } from "@/redux/signup/signupActions";
 
 const initialState = {
@@ -21,13 +20,9 @@ const SignUp = () => {
     useEffect(() => {
         if (formState.success) {
             dispatch(setSignUpState(formState));
-            // router.push("/signin");
+            router.push("/signin");
         }
     }, [dispatch, formState.success])
-
-    const signUpState = useAppSelector(getSignUpState);
-
-    console.log("From sign up page", signUpState)
 
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
