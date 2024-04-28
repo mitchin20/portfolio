@@ -21,15 +21,17 @@ model User {
   email     String    @unique
   password  String
   role      String    @default("BASIC")
-  projects  Project[]
+  isActive  Boolean   @default(false)
+  verificationCode VerificationCode[]
 }
 
-model Project {
-  id          String   @id @default(uuid())
-  userId      Int
-  name        String
-  description String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  User        User     @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+model VerificationCode {
+  id Int @id @default(autoincrement())
+  userId Int
+  code String
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+  User User @relation(fields: [userId], references: [id])
+
+  @@index([userId, expiresAt])
 }

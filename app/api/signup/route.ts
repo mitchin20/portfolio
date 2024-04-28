@@ -2,6 +2,11 @@ import validateEmail from "@/helpers/validateEmail";
 import validatePassword from "@/helpers/validatePassword";
 import prisma from "@/prisma/client";
 import bcrypt from "bcrypt";
+import { sendVerificationEmail } from "@/lib/emailService";
+
+function generateSixDigitNumber() {
+    return Math.floor(100000 + Math.random() * 900000).toString();
+}
 
 export async function POST(req: Request) {
     // Read data from req body
@@ -51,12 +56,41 @@ export async function POST(req: Request) {
             firstName,
             lastName,
             email,
-            password: hashedPassword
+            password: hashedPassword,
+            isActive: false,
         }
     })
 
-    const { password: _, ...user } = newUser;
+    // Generate Code
+    const verificationCode = generateSixDigitNumber();
+    const expirationTime = 15 * 60 * 1000;
+    await prisma.verificationCode.create({
+        data: {
+            userId: newUser.id,
+            code: verificationCode,
+            expiresAt: new Date(Date.now() + expirationTime)
+        }
+    })
+
+    // Send verification email
+    const emailResponse = await sendVerificationEmail({
+        userName: newUser.firstName,
+        email: newUser.email,
+        code: verificationCode
+    });
+
+    if (!emailResponse.success) {
+        return Response.json({
+            error: emailResponse.error
+        }, {
+            status: 400
+        })
+    }
 
     // return data
-    return Response.json({});
+    return Response.json({
+        userId: newUser.id
+    }, {
+        status: 200
+    });
 }

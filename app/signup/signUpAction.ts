@@ -51,9 +51,12 @@ export async function signUp(
         }
     }
 
+    const data = await response.json();
+
     return {
         success: true,
-        message: "Successfully signed up."
+        message: "Successfully signed up.",
+        userId: data.userId
     }
 
     // redirect("/signin")
