@@ -64,6 +64,7 @@ export async function POST(req: Request) {
     // Generate Code
     const verificationCode = generateSixDigitNumber();
     const expirationTime = 15 * 60 * 1000;
+    // const expirationTime = 24 * 60 * 60 * 1000;
     await prisma.verificationCode.create({
         data: {
             userId: newUser.id,

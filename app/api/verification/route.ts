@@ -48,6 +48,7 @@ export async function POST(req: NextRequest) {
 
     if (!userId || !verificationCode) {
         return Response.json({
+            user: null,
             success: false,
             message: "Invalid userId or code."
         })
@@ -59,13 +60,15 @@ export async function POST(req: NextRequest) {
     
     if (!data) {
         return Response.json({
+            user: null,
             success: false,
-            message: "Unable to find verification code!"
+            message: "Invalid verification code."
         })
     }
     
     if (hasExpired(data?.expiresAt)) {
         return Response.json({
+            user: null,
             success: false,
             message: "The code has expired."
         })
@@ -75,14 +78,15 @@ export async function POST(req: NextRequest) {
 
     if (!user) {
         return Response.json({
+            user: null,
             success: false,
             message: "Something went wrong. Unable to activate user."
         })
     }
 
     return Response.json({
-        data: user,
+        user,
         success: true,
-        message: "Successfully activated the account."
+        message: "Account successfully activated."
     })
 }

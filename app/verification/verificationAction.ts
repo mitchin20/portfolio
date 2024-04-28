@@ -13,21 +13,15 @@ export async function verification(
             "Content-Type": "application/json"
         },
     })
+    const data = await response.json();
 
     if (!response.ok) {
         return {
-            success: false,
-            data: null,
-            message: "Unable to sign up."
+            data
         }
     }
 
-    const data = await response.json();
-    console.log("server response: ", data)
-
     return {
-        success: true,
-        data,
-        message: "Successfully signed up."
+        data
     }
 }
