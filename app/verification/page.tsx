@@ -44,7 +44,7 @@ const Verification = () => {
         <Suspense>
             <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 text-center sm:mx-auto sm:w-full sm:max-w-sm">
                 <div>
-                    Welcome! Let's get your account activated. Please enter the code to verify your account below.
+                    Welcome! Let&apos;s get your account activated. Please enter the code to verify your account below.
                 </div>
                 <div className="mt-10 font-semibold">
                     Verification Code
