@@ -23,7 +23,7 @@ const SignUp = () => {
             dispatch(setSignUpState(formState));
             router.push(`/verification?userId=${formState?.userId}`);
         }
-    }, [dispatch, formState.success])
+    }, [dispatch, router, formState, formState.success])
 
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
