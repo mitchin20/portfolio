@@ -3,32 +3,13 @@
 import { Suspense } from "react";
 import React, { useEffect, useState } from "react";
 import { useFormState, useFormStatus } from "react-dom";
-import { useSearchParams } from "next/navigation";
 import { verification } from "./verificationAction";
+import UserIdInputField from "./UserIdInputField";
+import ResendVerification from "./ResendVerification";
 
 const initialState = {
     data: null,
 };
-
-const UserId = () => {
-    const searchParams = useSearchParams();
-    const params = searchParams.get("userId") ?? null;
-    const userId = Number(params);
-
-    return (
-        <div>
-            <input
-                id="encodedData"
-                name="encodedData"
-                type="hidden"
-                value={userId}
-                required
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-            />
-        </div>
-    );
-};
-
 const Verification = () => {
     const [message, setMessage] = useState('');
 
@@ -38,7 +19,7 @@ const Verification = () => {
         if (formState && formState.data && formState.data.message) {
             setMessage(formState.data?.message)
         }
-    }, [formState])
+    }, [formState, message])
 
     return (
         <Suspense>
@@ -55,7 +36,7 @@ const Verification = () => {
                     </div>
                 )}
                 <form className="space-y-6" action={formAction}>
-                    <UserId />
+                    <UserIdInputField />
                     <div>
                         <input
                             id="code"
@@ -69,6 +50,8 @@ const Verification = () => {
                         <VerifyButton />
                     </div>
                 </form>
+
+                <ResendVerification />
             </div>
         </Suspense>
     );

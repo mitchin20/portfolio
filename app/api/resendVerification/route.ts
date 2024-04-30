@@ -55,13 +55,11 @@ export async function POST(req: Request) {
 
     if (!success) {
         return Response.json({
-            error: "Please resend request in 30 minutes."
+            error: "Limit reached. Please come back later."
         }, {
             status: 429
         })
     }
-
-    console.log("rate limit: ", {remaining, limit})
 
     // Rea data from req body
     const body = await req.json();
