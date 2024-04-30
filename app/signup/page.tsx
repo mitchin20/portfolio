@@ -10,6 +10,7 @@ import { setSignUpState } from "@/redux/signup/signupActions";
 const initialState = {
     success: false,
     message: "",
+    userId: null
 };
 
 const SignUp = () => {
@@ -20,9 +21,9 @@ const SignUp = () => {
     useEffect(() => {
         if (formState.success) {
             dispatch(setSignUpState(formState));
-            router.push("/signin");
+            router.push(`/verification?userId=${formState?.userId}`);
         }
-    }, [dispatch, formState.success])
+    }, [dispatch, router, formState, formState.success])
 
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
