@@ -17,7 +17,7 @@ export async function sendVerificationEmail({
 }: EmailResponse){
     try {
         const { data, error } = await resend.emails.send({
-            from: "No reply <onboarding@resend.dev>",
+            from: "Portfolio <noreply@insightlabs.dev>",
             to: [email],
             subject: "Verification",
             html: render(WelcomeEmail({
