@@ -112,7 +112,13 @@ const SignUp = () => {
                 </Link>
             </div>
 
-            <div className="mt-5 sm:mx-auto sm:w-full sm:max-w-sm">
+
+            <div className="mt-3 sm:mx-auto sm:w-full sm:max-w-sm">
+                <div
+                    className="text-center"
+                >
+                    Please fill out the form below.
+                </div>
                 <form className="space-y-6" action={formAction}>
                     <div>
                         <label className="block text-sm font-medium leading-6 text-gray-900">
