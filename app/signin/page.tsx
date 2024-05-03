@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import { useFormState, useFormStatus } from "react-dom";
 import { signIn } from "./signInAction";
 import { useAppSelector } from "@/redux/hooks";
@@ -41,12 +42,15 @@ const SignIn = () => {
                     </div>
                 )}
                 <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-                    <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-                        Sign in to your account
+                    <h2 className="mt-10 text-2xl font-bold leading-9 tracking-tight text-gray-900">
+                        Hello
                     </h2>
+                    <h6 className="text-gray-500 font-light text-sm">
+                        Please sign in to continue.
+                    </h6>
                 </div>
 
-                <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+                <div className="mt-5 sm:mx-auto sm:w-full sm:max-w-sm">
                     <form className="space-y-6" action={formAction}>
                         <div>
                             <label
@@ -100,6 +104,18 @@ const SignIn = () => {
                             <SignInButton />
                         </div>
                     </form>
+
+                    <div
+                        className="mt-7 text-center"
+                    >
+                        <span className="text-gray-400">Don&apos;t have an account? </span>
+                        <Link
+                            href="/signup"
+                            className="text-blue-600"
+                        >
+                            Sign Up
+                        </Link>
+                    </div>
                 </div>
             </div>
         </div>
