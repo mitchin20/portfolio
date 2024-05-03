@@ -95,7 +95,16 @@ const NavItems = () => {
                         </li>
                     </ul>
                 </div>
-            ) : null}
+            ) : (
+                <li>
+                    <Link
+                        href="/signin"
+                        className="font-medium tracking-wide sm:p-2 md:p-3 rounded-full"
+                    >
+                        Sign In
+                    </Link>
+                </li>
+            )}
         </>
     );
 };

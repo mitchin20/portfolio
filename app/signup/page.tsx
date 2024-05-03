@@ -6,11 +6,12 @@ import { signUp } from "./signUpAction";
 import { useRouter } from "next/navigation";
 import { useAppDispatch } from "@/redux/hooks";
 import { setSignUpState } from "@/redux/signup/signupActions";
+import Link from "next/link";
 
 const initialState = {
     success: false,
     message: "",
-    userId: null
+    userId: null,
 };
 
 const SignUp = () => {
@@ -23,7 +24,7 @@ const SignUp = () => {
             dispatch(setSignUpState(formState));
             router.push(`/verification?userId=${formState?.userId}`);
         }
-    }, [dispatch, router, formState, formState.success])
+    }, [dispatch, router, formState, formState.success]);
 
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
@@ -69,7 +70,7 @@ const SignUp = () => {
 
     const handleConfirmPassword = (event: any) => {
         setConfirmPassword(event.target.value);
-    }
+    };
 
     return (
         <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
@@ -102,7 +103,16 @@ const SignUp = () => {
                 </h2>
             </div>
 
-            <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+            <div className="mt-5 text-center">
+                <span className="text-gray-400">
+                    Already had an account?{" "}
+                </span>
+                <Link href="/signin" className="text-blue-600">
+                    Sign In
+                </Link>
+            </div>
+
+            <div className="mt-5 sm:mx-auto sm:w-full sm:max-w-sm">
                 <form className="space-y-6" action={formAction}>
                     <div>
                         <label className="block text-sm font-medium leading-6 text-gray-900">
@@ -183,8 +193,8 @@ const SignUp = () => {
                                             : "text-gray-500"
                                     }`}
                                 >
-                                    {req.isFulfilled ? "\u2714" : "\u2717"} {req.name}
-                                    
+                                    {req.isFulfilled ? "\u2714" : "\u2717"}{" "}
+                                    {req.name}
                                 </li>
                             ))}
                         </ul>
@@ -193,9 +203,14 @@ const SignUp = () => {
                     <div>
                         <div className="flex items-center justify-between">
                             <label className="block text-sm font-medium leading-6 text-gray-900">
-                                Confirm Password {confirmPassword !== "" &&<span className="font-medium">
-                                    {password === confirmPassword ? "- match \u2714" : "- not match \u2717"}
-                                </span>}
+                                Confirm Password{" "}
+                                {confirmPassword !== "" && (
+                                    <span className="font-medium">
+                                        {password === confirmPassword
+                                            ? "- match \u2714"
+                                            : "- not match \u2717"}
+                                    </span>
+                                )}
                             </label>
                         </div>
                         <div className="mt-2">

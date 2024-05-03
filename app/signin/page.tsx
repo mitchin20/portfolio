@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import { useFormState, useFormStatus } from "react-dom";
 import { signIn } from "./signInAction";
 import { useAppSelector } from "@/redux/hooks";
@@ -100,6 +101,18 @@ const SignIn = () => {
                             <SignInButton />
                         </div>
                     </form>
+
+                    <div
+                        className="mt-7 text-center"
+                    >
+                        <span className="text-gray-400">Don&apos;t have an account? </span>
+                        <Link
+                            href="/signup"
+                            className="text-blue-600"
+                        >
+                            Sign Up
+                        </Link>
+                    </div>
                 </div>
             </div>
         </div>
