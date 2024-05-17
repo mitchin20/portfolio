@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { signOutAction } from "./signOutAction";
 import { useAppDispatch } from "@/redux/hooks";
 import { setUser } from "@/redux/user/userActions";
+import { clearSignUpState, setSignUpState } from "@/redux/signup/signupActions";
 
 const SignOutButton = () => {
     const dispatch = useAppDispatch();
@@ -23,6 +24,7 @@ const SignOutButton = () => {
 
     const handleSignOut = async () => {
         dispatch(setUser(null));
+        dispatch(clearSignUpState());
         await signOutAction({currentPath});
     }
 

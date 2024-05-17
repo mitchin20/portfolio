@@ -6,11 +6,18 @@ import { useFormState, useFormStatus } from "react-dom";
 import { verification } from "./verificationAction";
 import UserIdInputField from "./UserIdInputField";
 import ResendVerification from "./ResendVerification";
+import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 const initialState = {
     data: null,
 };
 const Verification = () => {
+    const router = useRouter();
+    const searchParams = useSearchParams();
+    const redirectLink = searchParams.get("redirect_link") ?? null;
+    const userId = searchParams.get("userId") ?? null;
     const [message, setMessage] = useState('');
 
     const [formState, formAction] = useFormState(verification, initialState);
@@ -18,8 +25,11 @@ const Verification = () => {
     useEffect(() => {
         if (formState && formState.data && formState.data.message) {
             setMessage(formState.data?.message)
+            if (redirectLink) {
+                router.push(`/${redirectLink}?userId=${userId}`)
+            }
         }
-    }, [formState, message])
+    }, [router, formState, message, redirectLink, userId])
 
     return (
         <Suspense>
@@ -31,8 +41,16 @@ const Verification = () => {
                     Verification Code
                 </div>
                 {formState && message && (
-                    <div className={`${formState.data.success ? "text-green-600" : "text-red-600"}`}>
-                        {message}
+                    <div>
+                        <div className={`${formState.data.success ? "text-green-600" : "text-red-600"}`}>
+                            {message}
+                        </div>
+                        <Link
+                            href="/signin"
+                            className="text-sm text-blue-400"
+                        >
+                            Please click here to sign in.
+                        </Link>
                     </div>
                 )}
                 <form className="space-y-6" action={formAction}>

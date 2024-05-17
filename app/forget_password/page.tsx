@@ -1,9 +1,33 @@
-import React from "react";
+"use client";
 
-const Forget = () => {
+import React, { useEffect } from "react";
+import { useFormState, useFormStatus } from "react-dom";
+import { forgetPasswordAction } from "./forgetPasswordAction";
+import { useRouter } from "next/navigation";
+
+const initialState = {
+    success: false,
+    message: '',
+    userId: null
+}
+
+const ForgetPassword = () => {
+    const router = useRouter();
+    const [formState, formAction] = useFormState(forgetPasswordAction, initialState);
+    const redirectLink = "reset_password"
+
+    useEffect(() => {
+        if (formState.success) {
+            router.push(`/verification?userId=${formState?.userId}&redirect_link=${redirectLink}`);
+        }
+    }, [router, formState, formState.success])
+
     return (
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-            <form className="space-y-6">
+            <form 
+                action={formAction}
+                className="space-y-6"
+            >
                 <div>
                     <label
                         htmlFor="email"
@@ -30,11 +54,11 @@ const Forget = () => {
 };
 
 function SubmitButton() {
-    // const { pending } = useFormStatus();
+    const { pending } = useFormStatus();
     return (
         <button
             type="submit"
-            // aria-disabled={pending}
+            aria-disabled={pending}
             className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
         >
             Submit
@@ -42,4 +66,4 @@ function SubmitButton() {
     );
 }
 
-export default Forget;
+export default ForgetPassword;

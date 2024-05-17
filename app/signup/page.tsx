@@ -98,7 +98,7 @@ const SignUp = () => {
                 </div>
             )}
             <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-                <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
+                <h2 className="mt-5 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
                     Sign up
                 </h2>
             </div>
