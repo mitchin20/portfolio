@@ -37,5 +37,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+eslint.config.mjs
 
 .vercel
