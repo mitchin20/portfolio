@@ -29,6 +29,15 @@ export async function POST(req: Request) {
         })
     }
 
+    // Check if account is activated
+    if (!existingUser.isActive) {
+        return Response.json({
+            error: "Account is not activated"
+        }, {
+            status: 400
+        })
+    }
+
     // JWT token
     const secret = new TextEncoder().encode(process.env.JWT_SECRET)
     const alg = 'HS256'
