@@ -32,7 +32,7 @@ export async function POST(req: Request) {
     // Check if account is activated
     if (!existingUser.isActive) {
         return Response.json({
-            error: "Account is not activated"
+            error: "Account is currently inactive"
         }, {
             status: 400
         })
