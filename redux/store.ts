@@ -2,12 +2,14 @@ import { Action, configureStore, ThunkAction } from '@reduxjs/toolkit';
 import screenSizeReducer from './screenSize/screenSizeReducer';
 import userReducer from './user/userReducer';
 import signupReducer from './signup/signupReducer';
+import signinReducer from './signin/signinReducer';
 
 export const store = configureStore({
     reducer: {
         screenSize: screenSizeReducer,
         userData: userReducer,
         signUpData: signupReducer,
+        signInData: signinReducer,
     }
 })
 

@@ -1,24 +1,43 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useFormState, useFormStatus } from "react-dom";
 import { signIn } from "./signInAction";
-import { useAppSelector } from "@/redux/hooks";
+import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 import { getSignUpState } from "@/redux/signup/signupReducer";
+import { setSignInState } from "@/redux/signin/signinActions";
+
+const initialState = {
+    success: false,
+    message: "",
+    user: null
+}
 
 const SignIn = () => {
+    const router = useRouter();
+    const dispatch = useAppDispatch();
     const signUpState = useAppSelector(getSignUpState);
 
-    const [formState, formAction] = useFormState(signIn, undefined);
+    const [formState, formAction] = useFormState(signIn, initialState);
+
+    useEffect(() => {
+        if (formState.success) {
+            dispatch(setSignInState(formState))
+
+            // Redirect user
+            router.push("/");
+        }
+    }, [dispatch, router, formState, formState.success])
 
     return (
         <div>
             <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
-                {formState && formState !== "" && (
+                {formState && formState.message !== "" && (
                     <div
                         role="alert"
-                        className="alert alert-error text-white"
+                        className="sm:mx-auto sm:w-full sm:max-w-sm alert alert-info text-white"
                     >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -33,11 +52,11 @@ const SignIn = () => {
                                 d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
                             />
                         </svg>
-                        <span>{formState}</span>
+                        <span>{formState.message}</span>
                     </div>
                 )}
                 {signUpState?.success && (
-                    <div className="text-center text-green-600">
+                    <div className="sm:mx-auto sm:w-full sm:max-w-sm text-center text-green-600">
                         {signUpState.message}
                     </div>
                 )}

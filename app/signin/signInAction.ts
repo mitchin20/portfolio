@@ -30,15 +30,29 @@ export async function signIn(
         sameSite: 'strict',
     });
 
-    // Redirect user if response success
     if (response.ok) {
-        switch (json.role) {
-            case 'SUPER_ADMIN':
-                redirect("/dashboard");
-            default:
-                redirect("/");
+        return {
+            success: true,
+            message: "Successfully signed in.",
+            user: json
         }
     } else {
-        return json.error;
+        return {
+            success: json.success,
+            message: json.error,
+            user: null
+        }
     }
+
+    // Redirect user if response success
+    // if (response.ok) {
+    //     switch (json.role) {
+    //         case 'SUPER_ADMIN':
+    //             redirect("/dashboard");
+    //         default:
+    //             redirect("/");
+    //     }
+    // } else {
+    //     return json.error;
+    // }
 }
