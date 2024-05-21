@@ -13,6 +13,7 @@ export async function POST(req: Request) {
     })
     if (!existingUser) {
         return Response.json({
+            success: false,
             error: "Invalid email or password."
         }, {
             status: 400
@@ -23,6 +24,7 @@ export async function POST(req: Request) {
     const isPasswordMatch = await bcrypt.compare(password, existingUser.password);
     if (!isPasswordMatch) {
         return Response.json({
+            success: false,
             error: "Invalid email or password."
         }, {
             status: 400
@@ -32,6 +34,7 @@ export async function POST(req: Request) {
     // Check if account is activated
     if (!existingUser.isActive) {
         return Response.json({
+            success: false,
             error: "Account is currently inactive"
         }, {
             status: 400

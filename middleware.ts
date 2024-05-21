@@ -19,6 +19,28 @@ export async function middleware(request: NextRequest) {
     // Public paths that do not require authentication
     const publicPaths = ["/", "/signin", "/signup"];
     if (publicPaths.includes(url.pathname)) {
+        // Check for cookies
+        const cookie = cookies().get('Authorization');
+        if (cookie) {
+            // Validate cookies
+            const secret = new TextEncoder().encode(process.env.JWT_SECRET);
+            const jwt = cookie.value;
+
+            try {
+                const userData = await verifyToken(jwt, secret);
+                // Redirect authenticated users away from sign-in or sign-up pages
+                if (url.pathname === '/signin' || url.pathname === '/signup') {
+                    return NextResponse.redirect(new URL('/', request.url));
+                }
+                return NextResponse.next();
+            } catch (error) {
+                console.error('Failed to verify token:', error);
+                // Clear the invalid cookie
+                const response = NextResponse.redirect(new URL('/signin', request.url));
+                response.headers.set('Set-Cookie', 'Authorization=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT; HttpOnly; SameSite=Strict');
+                return response;
+            }
+        }
         return NextResponse.next();
     }
 
@@ -58,5 +80,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-    matcher: ["/dashboard/:path*", "/user/:path*", "/loading"]
+    matcher: ["/dashboard/:path*", "/user/:path*", "/loading", '/signin', '/signup']
 };
