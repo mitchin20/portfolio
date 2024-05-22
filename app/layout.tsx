@@ -1,5 +1,4 @@
 import { ReduxProvider } from "@/redux/ReduxProvider";
-import NavBar from "./components/navbar/NavBar";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
@@ -21,7 +20,6 @@ export default function RootLayout({
             <html lang="en" data-theme="wireframe">
                 {/* bg-[url('/images/bg.jpg')] bg-cover bg-no-repeat */}
                 <body className={`${inter.className}`}>
-                    <NavBar />
                     {children}
                 </body>
             </html>

@@ -1,11 +1,12 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { useAppSelector } from "@/redux/hooks";
+import { getSignInState } from "@/redux/signin/signinReducer";
 import HeroSection from "./HeroSection";
 import AboutSection from "./AboutSection";
 import SkillSection from "./SkillSection";
-import { useAppSelector } from "@/redux/hooks";
-import { getSignInState } from "@/redux/signin/signinReducer";
+import NavBar from "../navbar/NavBar";
 
 export default function LandingPage() {
     const [signInMessage, setSignInMessage] = useState<string | null | undefined>('');
@@ -33,6 +34,8 @@ export default function LandingPage() {
 
     return (
         <div className="flex flex-col w-full mt-[-80px]">
+            <NavBar />
+            
             {visible && (
                 <div
                     role="alert"
