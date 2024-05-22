@@ -29,7 +29,7 @@ export async function middleware(request: NextRequest) {
             try {
                 const userData = await verifyToken(jwt, secret);
                 // Redirect authenticated users away from sign-in or sign-up pages
-                if (url.pathname === '/signin' || url.pathname === '/signup') {
+                if (url.pathname === '/signin' || url.pathname === '/signup' || url.pathname === '/verification' || url.pathname === '/forget_password') {
                     return NextResponse.redirect(new URL('/', request.url));
                 }
                 return NextResponse.next();
