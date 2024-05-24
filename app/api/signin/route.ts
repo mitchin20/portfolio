@@ -57,6 +57,10 @@ export async function POST(req: Request) {
     return Response.json({ 
         token: jwt,
         userId: existingUser.id,
-        role: existingUser.role
+        role: existingUser.role,
+        email: existingUser.email,
+        firstName: existingUser.firstName,
+        lastName: existingUser.lastName,
+        isActive: existingUser.isActive
     });
 }

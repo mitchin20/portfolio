@@ -4,28 +4,20 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { UserIcon } from "../svgs";
 import SignOutButton from "../signOut/SignOutButton";
-import { useAppSelector } from "@/redux/hooks";
-import { getUser } from "@/redux/user/userReducer";
-
-interface User {
-    id: number | null;
-    firstName: string | null;
-    lastName: string | null;
-    email: string | null;
-    role: string | null;
-}
+import { getSessionStorage } from "@/helpers/sessionStorage";
 
 const NavItems = () => {
-    const [user, setUser] = useState<User | null>(null);
+    const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
     const [isScreenSmall, setIsScreenSmall] = useState<boolean>(false);
-    const userData = useAppSelector(getUser);
+
+    useEffect(() => {
+        const user = getSessionStorage('user', null);
+        setUser(user);
+        setLoading(false);
+    }, [])
     
     useEffect(() => {
-        if (userData) {
-            setUser(userData);
-        } else {
-            setUser(null);
-        }
         const handleResize = () => {
             const isSmall = window.innerWidth < 769;
             setIsScreenSmall(isSmall);
@@ -36,8 +28,12 @@ const NavItems = () => {
         window.addEventListener("resize", handleResize);
         
         return () => window.removeEventListener("resize", handleResize);
-    }, [userData]);
-    
+    }, []);
+
+    if (loading) {
+        return null;
+    }
+
     return (
         <>
             <li>
