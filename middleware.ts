@@ -17,17 +17,19 @@ export async function middleware(request: NextRequest) {
     const url = new URL(request.url);
 
     // Public paths that do not require authentication
-    const publicPaths = ["/", "/signin", "/signup"];
+    const publicPaths = ["/", "/signin", "/signup", "/verification", "/forget_password"];
+
+    // Check if the request path is public
     if (publicPaths.includes(url.pathname)) {
-        // Check for cookies
-        const cookie = cookies().get('Authorization');
-        if (cookie) {
-            // Validate cookies
+        // Check for authentication cookie
+        const cookie = request.cookies.get('Authorization');
+        if (cookie && cookie.value !== '') {  // If cookie exists
             const secret = new TextEncoder().encode(process.env.JWT_SECRET);
             const jwt = cookie.value;
-
+            
             try {
-                const userData = await verifyToken(jwt, secret);
+                await verifyToken(jwt, secret);
+
                 // Redirect authenticated users away from sign-in or sign-up pages
                 if (url.pathname === '/signin' || url.pathname === '/signup' || url.pathname === '/verification' || url.pathname === '/forget_password') {
                     return NextResponse.redirect(new URL('/', request.url));
@@ -42,7 +44,7 @@ export async function middleware(request: NextRequest) {
             }
         }
         return NextResponse.next();
-    }
+        }
 
     // Check for cookies
     const cookie = cookies().get("Authorization");

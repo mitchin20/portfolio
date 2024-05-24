@@ -1,10 +1,6 @@
-import { ReduxProvider } from "@/redux/ReduxProvider";
-import NavBar from "./components/navbar/NavBar";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
-
-const inter = Inter({ subsets: ["latin"] });
+import AppLayout from "./appLayout";
 
 export const metadata: Metadata = {
     title: "Giang | Web Developer",
@@ -17,14 +13,8 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <ReduxProvider>
-            <html lang="en" data-theme="wireframe">
-                {/* bg-[url('/images/bg.jpg')] bg-cover bg-no-repeat */}
-                <body className={`${inter.className}`}>
-                    <NavBar />
-                    {children}
-                </body>
-            </html>
-        </ReduxProvider>
+        <AppLayout>
+            {children}
+        </AppLayout>
     );
 }

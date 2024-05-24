@@ -8,6 +8,7 @@ import { signIn } from "./signInAction";
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 import { getSignUpState } from "@/redux/signup/signupReducer";
 import { setSignInState } from "@/redux/signin/signinActions";
+import { setSessionStorage } from "@/helpers/sessionStorage";
 
 const initialState = {
     success: false,
@@ -19,13 +20,13 @@ const SignIn = () => {
     const router = useRouter();
     const dispatch = useAppDispatch();
     const signUpState = useAppSelector(getSignUpState);
-
     const [formState, formAction] = useFormState(signIn, initialState);
 
     useEffect(() => {
         if (formState.success) {
+            const {userId: _, ...user} = formState.user;
             dispatch(setSignInState(formState))
-
+            setSessionStorage('user', user);
             // Redirect user
             router.push("/");
         }
