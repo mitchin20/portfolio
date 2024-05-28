@@ -2,7 +2,10 @@ import React from 'react';
 
 const AboutSection = () => {
     return (
-        <div className='text-center max-h-full py-3 px-10 md:px-24 lg:px-[300px] xl:px-[400px] 2xl:px-[600px]'>
+        <div 
+            id='about'
+            className='text-center max-h-full py-3 px-10 md:px-24 lg:px-[300px] xl:px-[400px] 2xl:px-[600px]'
+        >
             <div className='divider my-20'>
                 <h1
                     className='font-semibold text-lg'
