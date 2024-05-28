@@ -3,6 +3,8 @@ import LandingPage from "./components/landingPage/LandingPage";
 
 export default function Home() {
     return (
-        <LandingPage />
+        <div className="w-full overflow-hidden">
+            <LandingPage />
+        </div>
     )
 }
