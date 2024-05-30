@@ -46,20 +46,20 @@ const NavItems = () => {
             </li>
             <li>
                 <Link
-                    href="/about"
+                    href="#about"
                     className="font-medium tracking-wide sm:p-2 md:p-3 rounded-full"
                 >
                     About
                 </Link>
             </li>
-            <li>
+            {/* <li>
                 <Link
                     href="/projects"
                     className="font-medium tracking-wide sm:p-2 md:p-3 rounded-full"
                 >
                     Projects
                 </Link>
-            </li>
+            </li> */}
             <li>
                 <Link
                     href="#contact"

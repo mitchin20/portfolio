@@ -51,14 +51,14 @@ const HeroSection = () => {
             >
                 <FaLinkedin />
             </a>
-            <a 
+            {/* <a 
                 href="https://github.com/my-front-end-code?tab=repositories"
                 target="_blank"
                 rel="noopener noreferrer"
                 className='btn btn-outline rounded-full'
             >
                 <FaGithub />
-            </a>
+            </a> */}
         </div>
     </div>
   )
