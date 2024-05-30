@@ -28,7 +28,7 @@ export const WelcomeEmail = ({
     <Html>
         <Head />
         <Preview>
-            Hi there! You've entered Giang Nguyen Portfolio. Dive into my world
+            Hi there! You&apos;ve entered Giang Nguyen Portfolio. Dive into my world
             of innovative code and inspiring solutions. Happy browsing!
         </Preview>
         <Body style={main}>
@@ -51,7 +51,7 @@ export const WelcomeEmail = ({
                     (This code is valid for 15 minutes)
                 </Text>
                 <Text style={paragraph}>
-                    If you didn't request this email, there's nothing to worry about, you can safely ignore it.
+                    If you didn&apos;t request this email, there&apos;s nothing to worry about, you can safely ignore it.
                 </Text>
                 <Text style={paragraph}>
                     Best,

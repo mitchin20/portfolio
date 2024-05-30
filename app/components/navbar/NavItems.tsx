@@ -62,7 +62,7 @@ const NavItems = () => {
             </li>
             <li>
                 <Link
-                    href="/contact"
+                    href="#contact"
                     className="font-medium tracking-wide sm:p-2 md:p-3 rounded-full"
                 >
                     Contact

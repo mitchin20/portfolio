@@ -20,7 +20,7 @@ export default function AppLayout({
         <ReduxProvider>
             <html lang="en" data-theme="wireframe">
                 {/* bg-[url('/images/bg.jpg')] bg-cover bg-no-repeat */}
-                <body className={`${inter.className}`}>
+                <body className={`${inter.className} overflow-x-hidden`}>
                     {children}
                 </body>
             </html>
