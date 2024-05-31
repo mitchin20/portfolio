@@ -34,7 +34,7 @@ const HeroSection = () => {
             </a>
 
             <Link 
-                href='/'
+                href='#contact'
                 className='btn btn-wide btn-sm btn-outline btn-success font-light rounded-full'
             >
                 <GiRobotGolem />
