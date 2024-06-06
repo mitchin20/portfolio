@@ -10,60 +10,41 @@ import {
 } from "@react-email/components";
 import * as React from "react";
 
-interface WelcomeEmailProps {
-    userFirstname: string;
+interface ContactEmailProps {
+    name: string;
     email: string;
-    code: string;
+    message: string;
 }
 
 const baseUrl = process.env.NEXT_PUBLIC_ROOT_URL
     ? `https://${process.env.NEXT_PUBLIC_ROOT_URL}`
     : "";
 
-export const WelcomeEmail = ({
-    userFirstname,
+export const ContactEmail = ({
+    name,
     email,
-    code
-}: WelcomeEmailProps) => (
+    message
+}: ContactEmailProps) => (
     <Html>
         <Head />
         <Preview>
-            Hi there! You&apos;ve entered Giang Nguyen Portfolio. Dive into my world
-            of innovative code and inspiring solutions. Happy browsing!
+            Message was sent by {name}.
         </Preview>
         <Body style={main}>
             <Container style={container}>
-                {/* <Img
-            src={`${baseUrl}/static/koala-logo.png`}
-            width="170"
-            height="50"
-            alt="Koala"
-            style={logo}
-          /> */}
-                <Text style={paragraph}>Hi {userFirstname},</Text>
+                <Text style={paragraph}>Message from {name},</Text>
                 <Text style={paragraph}>
-                    Please verify your email address
+                    Email: {email}
                 </Text>
                 <Text style={paragraph}>
-                    Verification code: {code}
-                </Text>
-                <Text style={paragraph}>
-                    (This code is valid for 15 minutes)
-                </Text>
-                <Text style={paragraph}>
-                    If you didn&apos;t request this email, there&apos;s nothing to worry about, you can safely ignore it.
-                </Text>
-                <Text style={paragraph}>
-                    Best,
-                    <br />
-                    The Website Admin
+                    {message}
                 </Text>
             </Container>
         </Body>
     </Html>
 );
 
-export default WelcomeEmail;
+export default ContactEmail;
 
 const main = {
     backgroundColor: "#ffffff",

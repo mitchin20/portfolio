@@ -6,6 +6,7 @@ import { getSignInState } from "@/redux/signin/signinReducer";
 import HeroSection from "./HeroSection";
 import AboutSection from "./AboutSection";
 import SkillSection from "./SkillSection";
+import ContactSection from "./ContactSection";
 import NavBar from "../navbar/NavBar";
 
 export default function LandingPage() {
@@ -60,6 +61,7 @@ export default function LandingPage() {
             <HeroSection />
             <AboutSection />
             <SkillSection />
+            <ContactSection />
         </div>
     )
 }
