@@ -9,6 +9,7 @@ import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
 import Typography from '@mui/material/Typography';
 import LoadingButton from '@mui/lab/LoadingButton';
+import Divider from "@mui/material/Divider";
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -20,7 +21,19 @@ const style = {
     border: '2px solid #000',
     boxShadow: 24,
     p: 4,
-  };
+    borderRadius: '20px',
+    '&::before': {
+        content: '""',
+        position: 'absolute',
+        top: '-2px',
+        left: '-2px',
+        right: '-2px',
+        bottom: '-2px',
+        background: 'linear-gradient(to right, white, #b9f1a2)',
+        zIndex: -1,
+        borderRadius: '20px',
+    },
+};
 
 const initialState = {
     success: false,
@@ -41,8 +54,6 @@ const ContactForm = () => {
             setIsOpen(true);
         }
     }, [formState, formState.success])
-
-    console.log("Form State:", formState);
 
     return (
         <div>
@@ -120,17 +131,28 @@ const ContactForm = () => {
                 closeAfterTransition
                 slots={{ backdrop: Backdrop }}
                 slotProps={{
-                backdrop: {
-                    timeout: 500,
-                },
+                    backdrop: {
+                        timeout: 500,
+                    },
                 }}
             >
                 <Fade in={isOpen}>
-                    <Box sx={style}>
-                        <Typography id="transition-modal-title" variant="h6" component="h2">
+                    <Box 
+                        sx={style}
+                        >
+                        <Typography 
+                            id="transition-modal-title"
+                            variant="h6" 
+                            component="h2"
+                            className="sm:text-base"
+                        >
                             Thank you for reaching out!
                         </Typography>
-                        <Typography id="transition-modal-description" sx={{ mt: 2 }}>
+                        <Divider className="mt-4 mb-4"/>
+                        <Typography 
+                            id="transition-modal-description" 
+                            className="sm:text-sm"
+                        >
                             Your message has been sent successfully. I appreciate your interest and will get back to you as soon as possible.
                         </Typography>
                     </Box>
