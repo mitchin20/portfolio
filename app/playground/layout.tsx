@@ -83,6 +83,7 @@ export default function Layout({
                 sx={{
                     width: { sm: `calc(100% - ${drawerWidth}px)` },
                     ml: { sm: `${drawerWidth}px` },
+                    backgroundColor: "teal"
                 }}
             >
                 <IconButton
@@ -104,7 +105,6 @@ export default function Layout({
                     width: { sm: drawerWidth }, 
                     flexShrink: { sm: 0 } 
                 }}
-                aria-label="mailbox folders"
             >
                 <Drawer
                     variant="temporary"
