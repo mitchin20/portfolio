@@ -1,11 +1,21 @@
 "use client";
 
-import React, { useState, useRef } from 'react';
+import React, { SyntheticEvent, useState } from 'react';
 import {
-    Day, Week, Month, Agenda, ScheduleComponent, ViewsDirective, ViewDirective, EventSettingsModel, ResourcesDirective, ResourceDirective, Inject, Resize, DragAndDrop, WorkWeek, PopupOpenEventArgs, CurrentAction, CellClickEventArgs
+    Day, Week, Month, Agenda, ScheduleComponent, ViewsDirective, ViewDirective, EventSettingsModel, ResourcesDirective, ResourceDirective, Inject, Resize, DragAndDrop, WorkWeek, PopupOpenEventArgs
 } from '@syncfusion/ej2-react-schedule';
 import { registerLicense } from '@syncfusion/ej2-base';
 import { timelineResourceData, technicianData } from "./datasource";
+import { 
+    Box,
+    Tabs,
+    Tab
+} from '@mui/material';
+import {
+    TabContext,
+    TabPanel,
+} from '@mui/lab';
+import AppointmentForm from './components/appointment/AppointmentForm';
 
 registerLicense("Ngo9BigBOggjHTQxAR8/V1NBaF1cXmhPYVJyWmFZfVpgdVdMY1xbR35PIiBoS35RckVlWXhfcndVRWheUUJ2")
 
@@ -26,25 +36,32 @@ interface EventData {
 // Define the event template
 const eventTemplate = (props: EventData): JSX.Element => {
     return (
-      <div className="template-wrap">
-        <div>{props.CustomerName}</div>
-        <div> Appointment for:
-            {props.Services.map((service, index) => (
-                <li key={index}>
-                    {service}
-                </li>
-            ))}
+        <div className="template-wrap">
+            <div>{props.CustomerName}</div>
+            <div> Appointment for:
+                {props.Services.map((service, index) => (
+                    <li key={index}>
+                        {service}
+                    </li>
+                ))}
+            </div>
+            <div className="note">Note: {props.Note}</div>
         </div>
-        <div className="note">Note: {props.Note}</div>
-      </div>
     );
 };
 
 const Bookme = () => {
+    const [tabValue, setTabValue] = useState('1');
     const eventSettings: EventSettingsModel = { 
         dataSource: timelineResourceData,
         template: eventTemplate as any
     };
+
+    // Tab handler
+    const handleTabChange = (event: SyntheticEvent, newValue: string) => {
+        setTabValue(newValue);
+    }
+    // End tab handler
 
     // Quick Info Templates
     const content = (props: EventData) => {
@@ -54,7 +71,7 @@ const Bookme = () => {
                     <div className="quick-info-content p-3">
                         <div className="mb-2">
                             <div>
-                                <b>Technician:</b> {technicianData.find(t => t.id === props.TechnicianId)?.text}
+                                <b>Technician:</b> {technicianData.find(t => t.id === props.TechnicianId)?.name}
                                 <br />
                                 <b>Customer:</b> {props.CustomerName}
                             </div>
@@ -80,14 +97,14 @@ const Bookme = () => {
     // Prevent quick info popup from opening when there is no data
     const onPopupOpen = (args: PopupOpenEventArgs): void => {
         if (args.type === 'QuickInfo' && args.target && args.target.classList.contains('e-work-cells')) {
-          args.cancel = true; // Prevent the quick info popup from opening
+          args.cancel = true;
         }
     };
 
     const quickInfoTemplates = {
-        // header: header.bind(this),
         content: content.bind(this)
     }
+    // End Quick Info Templates
 
     return (
         <div>
@@ -95,48 +112,80 @@ const Bookme = () => {
                 Book Me with Syncfusion React Schedule Component.
             </h2>
 
-            <ScheduleComponent
-                width='100%'
-                height='650px'
-                currentView='Day'
-                eventSettings={eventSettings}
-                // readonly
-                group={{ 
-                    resources: ['Technicians']
-                }}
-                quickInfoTemplates={quickInfoTemplates}
-                popupOpen={onPopupOpen}
+            <Box
+                className="w-full"
             >
-                <ViewsDirective>
-                    <ViewDirective option='Day' />
-                    <ViewDirective option='Week' />
-                    <ViewDirective option='Month' />
-                    <ViewDirective option='Agenda' />
-                </ViewsDirective>
-                <ResourcesDirective>
-                    <ResourceDirective
-                        field='TechnicianId'
-                        title='Technician'
-                        name='Technicians'
-                        allowMultiple={true}
-                        dataSource={technicianData}
-                        textField='text'
-                        idField='id'
-                        colorField='color'
-                    />
-                </ResourcesDirective>
-                <Inject 
-                    services={[
-                        Day,
-                        Week,
-                        WorkWeek,
-                        Month,
-                        Agenda,
-                        Resize,
-                        DragAndDrop
-                    ]}
-                />
-            </ScheduleComponent>
+                <TabContext
+                    value={tabValue}
+                >
+                    <Tabs
+                        value={tabValue}
+                        onChange={handleTabChange}
+                        aria-label='wrapped label tabs'
+                        variant='fullWidth'
+                    >
+                        <Tab
+                            value='1'
+                            label='Admin View'
+                        />
+                        <Tab
+                            value='2'
+                            label='Customer Appointment Form'
+                        />
+                    </Tabs>
+                    <TabPanel
+                        value='1'
+                    >
+                        <ScheduleComponent
+                            width='100%'
+                            height='650px'
+                            currentView='Day'
+                            eventSettings={eventSettings}
+                            // readonly
+                            group={{ 
+                                resources: ['Technicians']
+                            }}
+                            quickInfoTemplates={quickInfoTemplates}
+                            popupOpen={onPopupOpen}
+                        >
+                            <ViewsDirective>
+                                <ViewDirective option='Day' />
+                                <ViewDirective option='Week' />
+                                <ViewDirective option='Month' />
+                                <ViewDirective option='Agenda' />
+                            </ViewsDirective>
+                            <ResourcesDirective>
+                                <ResourceDirective
+                                    field='TechnicianId'
+                                    title='Technician'
+                                    name='Technicians'
+                                    allowMultiple={true}
+                                    dataSource={technicianData}
+                                    textField='text'
+                                    idField='id'
+                                    colorField='color'
+                                />
+                            </ResourcesDirective>
+                            <Inject 
+                                services={[
+                                    Day,
+                                    Week,
+                                    WorkWeek,
+                                    Month,
+                                    Agenda,
+                                    Resize,
+                                    DragAndDrop
+                                ]}
+                            />
+                        </ScheduleComponent>
+                    </TabPanel>
+                    <TabPanel
+                        value='2'
+                    >
+                        <AppointmentForm />
+                    </TabPanel>
+                </TabContext>
+            </Box>
         </div>
     )
 }

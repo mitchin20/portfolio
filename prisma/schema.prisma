@@ -35,3 +35,17 @@ model VerificationCode {
 
   @@index([userId, expiresAt])
 }
+
+model Appointment {
+  id              Int       @id   @default(autoincrement())
+  technicianId    Int
+  technicianName  String
+  customerName    String
+  nickName        String
+  customerPhone   String
+  customerEmail   String
+  selectedDate    String
+  selectedTime    String
+  services        String[]
+  note            String
+}
