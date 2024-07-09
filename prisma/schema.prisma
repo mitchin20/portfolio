@@ -49,3 +49,13 @@ model Appointment {
   services        String[]
   note            String
 }
+
+model Employee {
+  id          Int           @id   @default(autoincrement())
+  firstName   String
+  lastName    String
+  fullName    String
+  color       String
+  phone       String
+  email       String
+}

@@ -2,8 +2,7 @@
 
 import React, { useState } from 'react';
 import { useFormState, useFormStatus } from 'react-dom';
-
-import { appointmentFormAction } from './appointmentFormAction';
+import { appointmentFormAction } from './server_actions/appointmentFormAction';
 import CustomerAppFormS1 from './CustomerAppFormS1';
 import CustomerAppFormS2 from './CustomerAppFormS2';
 import CustomerAppFormS3 from './CustomerAppFormS3';
@@ -27,7 +26,9 @@ const AppointmentForm = () => {
                 >
                     <CustomerAppFormS1 setTechnician={setTechnician} />
                     
-                    <CustomerAppFormS2 technician={technician} />
+                    <CustomerAppFormS2 
+                        technician={technician}
+                    />
                     
                     <CustomerAppFormS3 />
 

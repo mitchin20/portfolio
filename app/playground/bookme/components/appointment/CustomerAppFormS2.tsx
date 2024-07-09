@@ -20,9 +20,12 @@ interface CustomerAppFormProps {
     technician: string;
 }
 
-const CustomerAppFormS2 = ({technician}: CustomerAppFormProps) => {
-    const [selectedDate, setSelectedDate] = useState(dayjs);
-
+const CustomerAppFormS2 = ({
+    technician,
+}: CustomerAppFormProps) => {
+    const [selectedDate, setSelectedDate] = useState<Dayjs>(dayjs);
+    // TODO: 
+    // Based on selectedDate
     // Make an API call to check for available date from DB
     // ...
 
@@ -55,7 +58,7 @@ const CustomerAppFormS2 = ({technician}: CustomerAppFormProps) => {
                             <DatePicker 
                                 disabled={!technician}
                                 name="selectedDate"
-                                onChange={(value) => handleSelectDate(value)}
+                                onChange={handleSelectDate}
                             />
                         </DemoContainer>
                     </LocalizationProvider>

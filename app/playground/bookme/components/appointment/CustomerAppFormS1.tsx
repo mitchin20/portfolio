@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import React, { useState, useEffect } from "react";
 import { 
     FormControl, 
     FormControlLabel, 
@@ -8,14 +10,38 @@ import {
     RadioGroup, 
 } from '@mui/material';
 import { technicianData } from "../../datasource";
+import { getEmployees } from "./server_actions/employees";
 
 interface CustomerAppFormS1Props {
     setTechnician: (value: string) => void;
-  }
+}
+
+interface Employee {
+    id: number;
+    firstName: string;
+    lastName: string;
+    fullName: string;
+    color: string;
+    phone: string;
+    email: string;           
+}
 
 const CustomerAppFormS1 = ({
     setTechnician
 }: CustomerAppFormS1Props) => {
+    const [employees, setEmployees] = useState<Employee[]>([]);
+
+    useEffect(() => {
+        const getAllEmployees = async () => {
+            const res = await getEmployees();
+            if (res) {
+                setEmployees(res.employees);
+            }
+        }
+
+        getAllEmployees();
+    }, [])
+
     // Handle user selecting technician
     const handleSelectTechnician = (event: any) => {
         setTechnician(event.target.value);
@@ -95,12 +121,12 @@ const CustomerAppFormS1 = ({
                                 control={<Radio />}
                                 label='any'
                             />
-                            {technicianData.map((tech, index) => (
+                            {employees.map((employee, index) => (
                                 <FormControlLabel 
                                     key={index}
-                                    value={tech.id}
+                                    value={employee.id}
                                     control={<Radio />}
-                                    label={tech.name}
+                                    label={employee.fullName}
                                 />
                             ))}
                         </RadioGroup>
