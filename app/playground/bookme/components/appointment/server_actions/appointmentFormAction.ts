@@ -1,34 +1,28 @@
 'use server';
 
-async function fetchEmployeeById(employeeId: number) {
-    
-}
+import { z } from "zod";
+
+const appointmentSchema = z.object({
+    technicianId: z.number(),
+    customerName: z.string().min(2),
+    customerPhone: z.string().min(10),
+    customerEmail: z.string().email(),
+    selectedDate: z.string(),
+    selectedTime: z.string(),
+    services: z.array(z.string())
+})
 
 export async function appointmentFormAction(
     prevState: any,
     formData: FormData,
-) {  
-    const services = formData.getAll("services");
-    const employeeId = formData.get("appointmentWith")
-
+) {
     try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_ROOT_URL}/api/v1/employee?employeeId=${Number(employeeId)}`)
-
-        const json = await response.json();
-
-        if (!response.ok) {
-            return {
-                success: json.success,
-                message: "Unable to fetch employee data"
-            }
-        }
-
-        const employee = json.data;
+        const services = formData.getAll("services");
+        const employeeId = formData.get("appointmentWith")
         
         const appointmentData = {
             subject: "Appointment",
-            technicianId: employeeId,
-            technicalName: employee.fullName,
+            technicianId: Number(employeeId),
             customerName: formData.get("fullName"),
             nickName: formData.get("nickName"),
             customerPhone: formData.get("phoneNumber"),
@@ -38,15 +32,49 @@ export async function appointmentFormAction(
             services: services,
             note: formData.get("note"),
         }
-        
-        console.log(appointmentData);
 
+        const result = await appointmentSchema.safeParseAsync(appointmentData)
+        if (!result.success) {
+            const validationErrors = result.error.issues.map(issue => {
+                return `${issue.path.join('.')} - ${issue.message}`;
+            }).join(', ');
+            console.error("Validation failed:", result.error.issues);
+            return {
+                success: false,
+                message: `Validation Failed: ${validationErrors}`,
+                data: null
+            }
+        }
+
+        const scheduleRes = await fetch(`${process.env.NEXT_PUBLIC_ROOT_URL}/api/v1/scheduleAppointment`, {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({appointmentData})
+        })
+
+        if (!scheduleRes.ok) {
+            const json = await scheduleRes.json();
+            return {
+                success: json.success,
+                message: json.message,
+                data: json.data
+            }
+        }
+
+        const json = await scheduleRes.json();
+        return {
+            success: json.success,
+            message: json.message,
+            data: json.data
+        }
     } catch (error) {
         console.error("Failed to fetch employee: ", error);
         return {
-            success: true,
-            message: "Appointment has confirmed.",
+            success: false,
+            message: "Unable to schedule the appointment",
+            data: null,
         }
     }
-    
 }

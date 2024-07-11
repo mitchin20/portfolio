@@ -20,6 +20,14 @@ export async function signIn(
         body: JSON.stringify({ email, password })
     });
 
+    if (!response.ok) {
+        return {
+            success: false,
+            message: "Unable to sign in.",
+            user: null
+        }
+    }
+
     const json = await response.json();
 
     cookies().set('Authorization', json.token, {

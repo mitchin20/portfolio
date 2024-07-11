@@ -115,12 +115,6 @@ const CustomerAppFormS1 = ({
                             name="appointmentWith"
                             onChange={handleSelectTechnician}
                         >
-                            <FormControlLabel 
-                                key='any'
-                                value='any'
-                                control={<Radio />}
-                                label='any'
-                            />
                             {employees.map((employee, index) => (
                                 <FormControlLabel 
                                     key={index}
