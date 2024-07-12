@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { 
     FormControl, 
     FormControlLabel, 
@@ -15,38 +15,52 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { generateTimeSlots } from '../helper';
 import dayjs, { Dayjs } from "dayjs";
+import { getAvailableTimeSlots } from "./server_actions/availableTimeSlots";
 
 interface CustomerAppFormProps {
-    technician: string;
+    technicianId: number | null;
+}
+
+interface AvailableTimesProps {
+    id: number;
+    time: string;
 }
 
 const CustomerAppFormS2 = ({
-    technician,
+    technicianId,
 }: CustomerAppFormProps) => {
-    const [selectedDate, setSelectedDate] = useState<Dayjs>(dayjs);
-    // TODO: 
-    // Based on selectedDate
-    // Make an API call to check for available date from DB
-    // ...
+    const [selectedDate, setSelectedDate] = useState<Dayjs | null>(null);
+    const [availableTimes, setAvailableTimes] = useState<AvailableTimesProps[]>([]);
+
+    // Based on selectedDate & technician ID
+    // Make an API call to check for available time slot from DB
+    useEffect(() => {
+        if (!technicianId || !selectedDate) return;
+
+        const date = selectedDate ? selectedDate.format('MM/DD/YYYY') : null;
+        const handleFetch = async () => {
+            if (technicianId && date) {
+                const result = await getAvailableTimeSlots({technicianId, selectedDate: date});
+
+                setAvailableTimes(result?.data);
+            }
+        }
+
+        if (technicianId && date) {
+            handleFetch();
+        }
+    }, [technicianId, selectedDate])
 
     // Handle user select date
     const handleSelectDate = (value: Dayjs | null) => {
-        if (value) {
-            setSelectedDate(value);
-        }
+        setSelectedDate(value);
     }
 
-    // Mock data
-    const startTime = 9;
-    const endTime = 18;
-    const interval = 30;
-
-    const timeSlots = generateTimeSlots(startTime, endTime, interval);
     return (
         <div>
             <div className='mt-5'>
                 <label className="text-blue-900 font-semibold">
-                    Select your appointment time
+                    Select your appointment date
                 </label>
                 <div className='mt-2 w-1/3 ml-5'>
                     <LocalizationProvider 
@@ -56,7 +70,7 @@ const CustomerAppFormS2 = ({
                             components={['DateTimePicker']}
                         >
                             <DatePicker 
-                                disabled={!technician}
+                                disabled={!technicianId}
                                 name="selectedDate"
                                 onChange={handleSelectDate}
                             />
@@ -64,33 +78,37 @@ const CustomerAppFormS2 = ({
                     </LocalizationProvider>
                 </div>
             </div>
-            <div className='mt-5'>
-                <FormControl>
-                    <FormLabel className="text-blue-900 font-semibold">
-                        Available Time Slots
-                    </FormLabel>
-                    <RadioGroup
-                        name="selectedTime"
-                    >
-                        <Grid container className="ml-5">
-                            {timeSlots.map((ts, index) => (
-                                <Grid 
-                                    key={index}
-                                    item 
-                                    xs={3}
-                                >
-                                    <FormControlLabel 
-                                        value={ts.time}
-                                        control={<Radio />}
-                                        label={ts.time}
-                                        disabled={!technician}
-                                    />
-                                </Grid>
-                            ))}
-                        </Grid>
-                    </RadioGroup>
-                </FormControl>
-            </div>
+            {selectedDate?.isValid() && availableTimes.length > 0 && (
+                <div className='mt-5'>
+                    <FormControl>
+                        <FormLabel
+                            className="text-blue-900 font-semibold"
+                        >
+                            Available Time Slots
+                        </FormLabel>
+                        <RadioGroup
+                            name="selectedTime"
+                        >
+                            <Grid container className="ml-5">
+                                {availableTimes.map((ts, index) => (
+                                    <Grid 
+                                        key={index}
+                                        item 
+                                        xs={3}
+                                    >
+                                        <FormControlLabel 
+                                            value={ts.time}
+                                            control={<Radio />}
+                                            label={ts.time}
+                                            disabled={!selectedDate.isValid()}
+                                        />
+                                    </Grid>
+                                ))}
+                            </Grid>
+                        </RadioGroup>
+                    </FormControl>
+                </div>
+            )}
         </div>
     )
 }

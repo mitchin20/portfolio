@@ -13,7 +13,7 @@ import { technicianData } from "../../datasource";
 import { getEmployees } from "./server_actions/employees";
 
 interface CustomerAppFormS1Props {
-    setTechnician: (value: string) => void;
+    setTechnicianId: (value: number) => void;
 }
 
 interface Employee {
@@ -27,7 +27,7 @@ interface Employee {
 }
 
 const CustomerAppFormS1 = ({
-    setTechnician
+    setTechnicianId
 }: CustomerAppFormS1Props) => {
     const [employees, setEmployees] = useState<Employee[]>([]);
 
@@ -43,8 +43,8 @@ const CustomerAppFormS1 = ({
     }, [])
 
     // Handle user selecting technician
-    const handleSelectTechnician = (event: any) => {
-        setTechnician(event.target.value);
+    const handleSelectTechnician = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setTechnicianId(Number(event.target.value));
     }
 
     return (

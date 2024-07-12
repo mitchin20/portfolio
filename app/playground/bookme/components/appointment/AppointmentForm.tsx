@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useFormState, useFormStatus } from 'react-dom';
 import { appointmentFormAction } from './server_actions/appointmentFormAction';
 import CustomerAppFormS1 from './CustomerAppFormS1';
@@ -57,8 +57,14 @@ interface AppointmentDetailProps {
     startTime: Date;
 }
 
+interface TechnicianProps {
+    id: number;
+    fullName: string;
+}
+
 const AppointmentForm = () => {
-    const [technician, setTechnician] = useState<string>("");
+    const ref = useRef<HTMLFormElement>(null);
+    const [technicianId, setTechnicianId] = useState<number| null>(null);
     const [appointmentDetail, setAppointmentDetail] = useState<AppointmentDetailProps | undefined>(undefined);
     const [open, setOpen] = useState<boolean>(false);
 
@@ -91,14 +97,15 @@ const AppointmentForm = () => {
             )}
 
             <div className="mt-3 px-40 sm:w-full">
-                <form 
+                <form
+                    ref={ref}
                     className="space-y-6"
                     action={formAction}
                 >
-                    <CustomerAppFormS1 setTechnician={setTechnician} />
+                    <CustomerAppFormS1 setTechnicianId={setTechnicianId} />
                     
                     <CustomerAppFormS2 
-                        technician={technician}
+                        technicianId={technicianId}
                     />
                     
                     <CustomerAppFormS3 />

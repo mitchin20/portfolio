@@ -46,10 +46,6 @@ const AppointmentDetail = ({
                     <List>
                         <ListItem>
                             <ListItemText 
-                                primary="With"
-                                secondary={appointmentDetail.technicianName}
-                            />
-                            <ListItemText 
                                 primary="On"
                                 secondary={appointmentDetail.startTime.toLocaleString('en-US', {
                                     weekday: 'short',
@@ -70,8 +66,13 @@ const AppointmentDetail = ({
                                     timeZone: 'UTC'
                                 })}
                             />
+                            <ListItemText 
+                                primary="With"
+                                secondary={appointmentDetail.technicianName}
+                            />
                         </ListItem>
                     </List>
+
                     <Typography
                         variant='body2'
                     >
