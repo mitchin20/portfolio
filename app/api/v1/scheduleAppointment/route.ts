@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import prisma from "@/prisma/client";
 import { z } from "zod";
+import { sendAppointmentEmail } from "@/lib/emailScheduledAppointment";
 
 const appointmentSchema = z.object({
     subject: z.string(),
@@ -102,11 +103,31 @@ export async function POST(req: Request) {
         // Create record in DB
         const res = await prisma.appointment.create({
             data: transformedData
-        }) 
+        })
+
+        // Send email
+
+        if (!res) {
+            return NextResponse.json({
+                success: false,
+                message: "Failed to save record.",
+                data: null
+            })
+        }
+
+        const response = await sendAppointmentEmail({appointmentInfo: res});
+
+        if (!response.success) {
+            return NextResponse.json({
+                success: response.success,
+                message: response.error,
+                data: response.data
+            })
+        }
 
         return NextResponse.json({
             success: true,
-            message: "Successfully scheduled the appointment",
+            message: "Successfully scheduled the appointment and Email has been sent.",
             data: res
         })
 

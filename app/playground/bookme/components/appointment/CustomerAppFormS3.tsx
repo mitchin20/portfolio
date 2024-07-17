@@ -3,14 +3,15 @@
 import React, { useEffect, useState } from "react";
 import { 
     Checkbox,
-    FormControl,
-    FormLabel,
-    FormControlLabel, 
     Grid, 
     TextField,
-    RadioGroup,
-    Radio,
     Chip,
+    List,
+    ListItem,
+    ListItemButton,
+    ListItemIcon,
+    ListItemText,
+    Typography,
 } from '@mui/material';
 import { servicesData } from '../../datasource';
 
@@ -20,53 +21,45 @@ interface Service {
     type: string;
 }
 
+interface GroupedServices {
+    [key: string]: Service[];
+}
+
 const CustomerAppFormS3 = () => {
+    const [groupedBySerType, setGroupedBySerType] = useState<GroupedServices>({});
     const [selectedServices, setSelectedServices] = useState<Service[]>([]);
-    const [selectedType, setSelectedType] = useState<string>('All');
-    const [filteredServices, setFilterServices] = useState<Service[]>([]);
-    const [serviceTypes, setServiceTypes] = useState<string[]>([])
 
-    // Handle user select filter services by type
-    const handleFilterServicesByType = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setSelectedType(event.target.value);
-    }
-
-    // Handle filtered services
+    // Group services by type
     useEffect(() => {
-        if (selectedType !== "All") {
-            const filteredData = servicesData.filter(s => s.type === selectedType);
-            setFilterServices(filteredData);
-        } else {
-            setFilterServices(servicesData);
+        const handleGroupedByServiceTYpe = () => {
+            const groupedByType: GroupedServices = servicesData.reduce<GroupedServices>((acc, obj) => {
+                if (!acc[obj.type]) {
+                    acc[obj.type] = [];
+                }
+
+                acc[obj.type].push(obj)
+
+                return acc;
+            }, {} as GroupedServices)
+
+            setGroupedBySerType(groupedByType);
         }
-    }, [selectedType])
+
+        handleGroupedByServiceTYpe();
+    }, [servicesData])
+
+    const handleSelectedService = (value: Service) => {
+        if (value) {
+            setSelectedServices([...selectedServices, value]);
+        } else {
+            setSelectedServices(selectedServices.filter(service => service !== value));
+        }
+    }
 
     // Handle remove selected services
     const handleRemoveSeletedServices = (serviceName: string) => {
         const newList = selectedServices.filter(ss => ss.name !== serviceName)
         setSelectedServices(newList);
-    }
-
-    // Getting service type from data list
-    useEffect(() => {
-        if (servicesData) {
-            const types = servicesData.flatMap(s => s.type);
-            types.push(...types, "All");
-            if (types) {
-                setServiceTypes(Array.from(new Set(types)).sort());
-            }
-        }
-    }, [])
-
-    // Handle user selecting services.
-    const handleSelectedService = (event: React.ChangeEvent<HTMLInputElement>, service: Service) => {
-        if (event.target.checked) {
-            // add service to array if checked
-            setSelectedServices([...selectedServices, service]);
-        } else {
-            // remove service if unchecked
-            setSelectedServices(selectedServices.filter(s => s !== service));
-        }
     }
 
     return (
@@ -75,36 +68,6 @@ const CustomerAppFormS3 = () => {
                 <label className="text-blue-900 font-semibold">
                     Services selection
                 </label>
-
-                <div className="ml-5">
-                    <FormControl>
-                        <FormLabel
-                            id="filter-by-service-category"
-                            className="mt-3"
-                        >
-                            Filter by Service Category
-                        </FormLabel>
-                        <RadioGroup
-                            onChange={handleFilterServicesByType}
-                        >
-                            <Grid container>
-                                {serviceTypes.map((type, index) => (
-                                    <Grid item key={index}>
-                                        <FormControlLabel 
-                                            value={type}
-                                            label={type}
-                                            control={
-                                                <Radio 
-                                                    checked={selectedType === type}
-                                                />
-                                            }
-                                        />
-                                    </Grid>
-                                ))}
-                            </Grid>
-                        </RadioGroup>
-                    </FormControl>
-                </div>
 
                 <div className="ml-5 mt-2">
                     {selectedServices.length > 0 && (
@@ -127,27 +90,33 @@ const CustomerAppFormS3 = () => {
                 </div>
 
                 <Grid container className="ml-5">
-                    {filteredServices?.map((service, index) => (
+                    {Object.keys(groupedBySerType).map(type => (
                         <Grid
-                            key={index}
-                            item
-                            xs={2}
+                            key={type}
+                            xs={Math.floor(12 / Object.keys(groupedBySerType).length)}
                         >
-                            <div
-                                className="text-blue-500 mt-5 mb-5"
-                            >
-                                <FormControlLabel 
-                                    label={service.name}
-                                    value={service.name}
-                                    name="services"
-                                    control={
-                                        <Checkbox 
-                                            checked={selectedServices.some(s => s.id === service.id)}
-                                            onChange={(event) => {handleSelectedService(event, service)}}
-                                        />
-                                    }
-                                />
-                            </div>
+                            <Typography>
+                                {type}
+                            </Typography>
+                            <List>
+                                {groupedBySerType[type].map((service, index) => (
+                                    <ListItem key={index}>
+                                        <ListItemButton
+                                            onClick={() => handleSelectedService(service)}
+                                        >
+                                            <ListItemIcon>
+                                                <Checkbox
+                                                    name="services"
+                                                    value={service.name}
+                                                    edge="start"
+                                                    checked={selectedServices.some(s => s.id === service.id)}
+                                                />
+                                            </ListItemIcon>
+                                            <ListItemText primary={service.name} />
+                                        </ListItemButton>
+                                    </ListItem>
+                                ))}
+                            </List>
                         </Grid>
                     ))}
                 </Grid>

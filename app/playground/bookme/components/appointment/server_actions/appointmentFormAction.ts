@@ -17,9 +17,10 @@ export async function appointmentFormAction(
     formData: FormData,
 ) {
     try {
+        console.log("form data:", formData);
         const services = formData.getAll("services");
         const employeeId = formData.get("appointmentWith")
-        
+
         const appointmentData = {
             subject: "Appointment",
             technicianId: Number(employeeId),
