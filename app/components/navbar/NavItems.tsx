@@ -68,6 +68,16 @@ const NavItems = () => {
                     Contact
                 </Link>
             </li>
+            {user && (
+                <li>
+                    <Link
+                        href="/playground"
+                        className="font-medium tracking-wide sm:p-2 md:p-3 rounded-full"
+                    >
+                        Playground
+                    </Link>
+                </li>
+            )}
             {user ? (
                 <div className="dropdown dropdown-end">
                     <div
