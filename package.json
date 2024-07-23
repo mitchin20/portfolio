@@ -30,6 +30,7 @@
     "@syncfusion/ej2-lists": "^25.2.3",
     "@syncfusion/ej2-navigations": "^25.2.6",
     "@syncfusion/ej2-popups": "^25.2.7",
+    "@syncfusion/ej2-react-calendars": "^26.1.41",
     "@syncfusion/ej2-react-schedule": "^25.2.7",
     "@syncfusion/ej2-splitbuttons": "^25.2.4",
     "@types/bcrypt": "^5.0.2",

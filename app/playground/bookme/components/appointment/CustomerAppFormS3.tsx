@@ -49,11 +49,15 @@ const CustomerAppFormS3 = () => {
     }, [servicesData])
 
     const handleSelectedService = (value: Service) => {
-        if (value) {
-            setSelectedServices([...selectedServices, value]);
-        } else {
-            setSelectedServices(selectedServices.filter(service => service !== value));
-        }
+        setSelectedServices(prevSelectedServices => {
+            if (prevSelectedServices.some(s => s.id === value.id)) {
+                // Service is already selected, so remove it
+                return prevSelectedServices.filter(s => s.id !== value.id);
+            } else {
+                // Service is not selected, so add it
+                return [...prevSelectedServices, value];
+            }
+        });
     }
 
     // Handle remove selected services

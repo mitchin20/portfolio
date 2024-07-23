@@ -1,11 +1,10 @@
 "use client";
 
-import React, { SyntheticEvent, useState } from 'react';
+import React, { SyntheticEvent, useState, useEffect } from 'react';
 import {
     Day, Week, Month, Agenda, ScheduleComponent, ViewsDirective, ViewDirective, EventSettingsModel, ResourcesDirective, ResourceDirective, Inject, Resize, DragAndDrop, WorkWeek, PopupOpenEventArgs
 } from '@syncfusion/ej2-react-schedule';
 import { registerLicense } from '@syncfusion/ej2-base';
-import { timelineResourceData, technicianData } from "./datasource";
 import { 
     Box,
     Tabs,
@@ -16,8 +15,39 @@ import {
     TabPanel,
 } from '@mui/lab';
 import AppointmentForm from './components/appointment/AppointmentForm';
+import { getAppointments } from './appointmentsAction';
+import { getEmployees } from './components/appointment/server_actions/employees';
+import { editorTemplate } from './components/editorTemplate/editorTemplate';
+import { onPopupOpen } from './components/editorTemplate/editorTemplate';
 
 registerLicense("Ngo9BigBOggjHTQxAR8/V1NBaF1cXmhPYVJyWmFZfVpgdVdMY1xbR35PIiBoS35RckVlWXhfcndVRWheUUJ2")
+
+interface Appointment {
+    id: number;
+    subject: string;
+    technicianId: number;
+    technicianName: string;
+    customerName: string;
+    nickName: string;
+    customerPhone: string;
+    customerEmail: string;
+    selectedDate: string;
+    selectedTime: string;
+    services: string[];
+    note: string;
+    endTime: Date;
+    startTime: Date;
+}
+
+interface Employee {
+    id: number;
+    firstName: string;
+    lastName: string;
+    fullName: string;
+    color: string;
+    phone: string;
+    email: string;           
+}
 
 // Define the type for the event data
 interface EventData {
@@ -51,17 +81,56 @@ const eventTemplate = (props: EventData): JSX.Element => {
 };
 
 const Bookme = () => {
+    const [appointments, setAppointments] = useState<Appointment[]>([]);
+    const [employees, setEmployees] = useState<Employee[]>([]);
     const [tabValue, setTabValue] = useState('1');
-    const eventSettings: EventSettingsModel = { 
-        dataSource: timelineResourceData,
-        template: eventTemplate as any
-    };
+
+    useEffect(() => {
+        const handleFetch = async () => {
+            try {
+                const resApp = await getAppointments();
+                const resEmp = await getEmployees();
+
+                setAppointments(resApp.data);
+                setEmployees(resEmp.employees);
+            } catch (error) {
+                console.error("Failed to fetch data: ", error);
+            }
+        }
+
+        handleFetch();
+    }, [])
 
     // Tab handler
     const handleTabChange = (event: SyntheticEvent, newValue: string) => {
         setTabValue(newValue);
     }
     // End tab handler
+
+    const parseDateUTC = (dateString: string): Date => {
+        const [date, time] = dateString.split('T');
+        const [year, month, day] = date.split('-');
+        const [hours, minutes, seconds] = time.split(':');
+        const newDate = new Date(Number(year), Number(month) - 1, Number(day), Number(hours), Number(minutes));
+
+        return newDate;
+    };
+
+    const mappedResourceData = appointments.map(appointment => ({
+        Id: appointment.id,
+        Subject: appointment.subject,
+        CustomerName: appointment.customerName,
+        TechnicianId: appointment.technicianId,
+        Services: appointment.services,
+        Note: appointment.note,
+        StartTime: parseDateUTC(appointment.startTime.toString()),
+        EndTime: parseDateUTC(appointment.endTime.toString())
+    }))
+
+    const eventSettings: EventSettingsModel = { 
+        dataSource: mappedResourceData,
+        template: eventTemplate as any
+    };
 
     // Quick Info Templates
     const content = (props: EventData) => {
@@ -71,7 +140,7 @@ const Bookme = () => {
                     <div className="quick-info-content p-3">
                         <div className="mb-2">
                             <div>
-                                <b>Technician:</b> {technicianData.find(t => t.id === props.TechnicianId)?.name}
+                                <b>Technician:</b> {employees.find(t => t.id === props.TechnicianId)?.fullName}
                                 <br />
                                 <b>Customer:</b> {props.CustomerName}
                             </div>
@@ -95,11 +164,11 @@ const Bookme = () => {
     }
 
     // Prevent quick info popup from opening when there is no data
-    const onPopupOpen = (args: PopupOpenEventArgs): void => {
-        if (args.type === 'QuickInfo' && args.target && args.target.classList.contains('e-work-cells')) {
-          args.cancel = true;
-        }
-    };
+    // const onPopupOpen = (args: PopupOpenEventArgs): void => {
+    //     if (args.type === 'QuickInfo' && args.target && args.target.classList.contains('e-work-cells')) {
+    //       args.cancel = true;
+    //     }
+    // };
 
     const quickInfoTemplates = {
         content: content.bind(this)
@@ -147,6 +216,9 @@ const Bookme = () => {
                             }}
                             quickInfoTemplates={quickInfoTemplates}
                             popupOpen={onPopupOpen}
+                            startHour='08:00'
+                            endHour='20:00'
+                            editorTemplate={editorTemplate}
                         >
                             <ViewsDirective>
                                 <ViewDirective option='Day' />
@@ -160,8 +232,8 @@ const Bookme = () => {
                                     title='Technician'
                                     name='Technicians'
                                     allowMultiple={true}
-                                    dataSource={technicianData}
-                                    textField='text'
+                                    dataSource={employees}
+                                    textField='fullName'
                                     idField='id'
                                     colorField='color'
                                 />

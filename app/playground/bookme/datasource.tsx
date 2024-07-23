@@ -18,7 +18,7 @@ export let timelineResourceData: Object[] = [
         Services: ['service_1', 'service_2'],
         StartTime: new Date(today.getFullYear(), today.getMonth(), today.getDate(), 9, 0),
         EndTime: new Date(today.getFullYear(), today.getMonth(), today.getDate(), 10, 0),
-        TechnicianId: 2,
+        TechnicianId: 1,
         Note: "Note 1",
     },
     {
@@ -38,7 +38,7 @@ export let timelineResourceData: Object[] = [
         Services: ['service_1', 'service_2'],
         StartTime: new Date(today.getFullYear(), today.getMonth(), today.getDate(), 14, 0),
         EndTime: new Date(today.getFullYear(), today.getMonth(), today.getDate(), 15, 0),
-        TechnicianId: 3,
+        TechnicianId: 1,
         Note: "Note 2",
     },
 ];
